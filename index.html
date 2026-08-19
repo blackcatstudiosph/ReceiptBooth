@@ -1,3258 +1,2159 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<!-- BLACKCAT STUDIOS PWA / iPad app mode -->
-
-<link rel="manifest" href="manifest.json?v=13">
-
-<link
-  rel="apple-touch-icon"
-  href="apple-touch-icon.png?v=13">
-
-<meta
-  name="apple-mobile-web-app-capable"
-  content="yes">
-
-<meta
-  name="apple-mobile-web-app-status-bar-style"
-  content="default">
-
-<meta
-  name="apple-mobile-web-app-title"
-  content="BLACKCAT">
-
-<meta
-  name="mobile-web-app-capable"
-  content="yes">
-
-<script>
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function () {
-        navigator.serviceWorker.register("./sw.js?v=13");
-    });
-}
-</script>
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover">
-
-<meta
-    name="theme-color"
-    content="#f4f0e8">
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4f0e8">
 <title>BLACKCAT STUDIOS</title>
 
+<link rel="manifest" href="manifest.json?v=14">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=14">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="BLACKCAT">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <style>
-
-:root {
-    --cream: #f4f0e8;
-    --black: #0b0b0b;
-    --gray: #dedbd5;
-    --muted: #686868;
-}
-
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
-
-html,
-body {
-    margin: 0;
-    width: 100%;
-    min-height: 100%;
-}
-
-body {
-    background: var(--cream);
-    color: var(--black);
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-button,
-input,
-select {
-    font: inherit;
-}
-
-.hidden {
-    display: none !important;
-}
-
-
-/* =========================
-   GENERAL
-========================= */
-
-.screen {
-    min-height: 100dvh;
-    width: 100%;
-    padding: 24px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-}
-
-.brand {
-    font-size: 22px;
-    font-weight: 900;
-    letter-spacing: 5px;
-    margin-bottom: 22px;
-
-    user-select: none;
-    -webkit-user-select: none;
-}
-
-h1 {
-    margin: 8px 0;
-
-    font-size:
-        clamp(34px, 6vw, 52px);
-
-    line-height: 1.05;
-}
-
-.subtitle {
-    color: var(--muted);
-    font-size: 18px;
-    margin: 10px 0 25px;
-}
-
-
-/* =========================
-   CUSTOM BLACKCAT ICON
-========================= */
-
-.cat-icon {
-    display: block;
-
-    width: 105px;
-    height: 105px;
-
-    object-fit: contain;
-
-    margin: 2px auto 18px;
-}
-
-.cat-icon-large {
-    width: 125px;
-    height: 125px;
+:root{
+  --cream:#f4f0e8;
+  --black:#0b0b0b;
+  --gray:#dedbd5;
+  --muted:#686868;
 }
 
-.cat-icon-small {
-    width: 42px;
-    height: 42px;
-
-    margin: 0 auto 8px;
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
-
-
-/* =========================
-   BUTTONS
-========================= */
-
-.primary,
-.secondary {
-    min-width: 220px;
-    min-height: 56px;
-
-    padding: 15px 28px;
-    margin: 6px;
-
-    border: none;
-    border-radius: 18px;
-
-    font-size: 17px;
-    font-weight: 800;
 
-    cursor: pointer;
+html,body{
+  margin:0;
+  min-height:100%;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--cream);
+  color:var(--black);
 }
 
-.primary {
-    background: var(--black);
-    color: white;
-}
+button,input,select{font:inherit}
+.hidden{display:none!important}
 
-.secondary {
-    background: var(--gray);
-    color: var(--black);
+.screen{
+  min-height:100dvh;
+  width:100%;
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
 }
 
-.primary:active,
-.secondary:active {
-    transform: scale(.98);
+.brand{
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:5px;
+  margin-bottom:22px;
+  user-select:none;
 }
-
-
-/* =========================
-   HOME
-========================= */
 
-.event-home {
-    font-size: 17px;
-    font-weight: 900;
-    margin: 4px 0 15px;
-    text-transform: uppercase;
+h1{
+  margin:8px 0;
+  font-size:clamp(34px,6vw,52px);
+  line-height:1.05;
 }
-
-.mode-badge {
-    display: inline-block;
-
-    padding: 8px 14px;
-
-    border: 1px solid #aaa;
-    border-radius: 50px;
-
-    margin-bottom: 20px;
 
-    font-size: 12px;
-    font-weight: 900;
-    letter-spacing: 1px;
+.subtitle{
+  color:var(--muted);
+  font-size:18px;
+  margin:10px 0 25px;
 }
 
-
-/* =========================
-   ADMIN
-========================= */
-
-.admin-card {
-    width: min(540px, 100%);
-
-    background: white;
-
-    padding: 28px;
-
-    border-radius: 26px;
+.cat{
+  width:120px;
+  height:120px;
+  object-fit:contain;
+  margin:0 auto 18px;
 }
 
-.admin-row {
-    text-align: left;
-    margin: 18px 0;
+.primary,.secondary{
+  min-width:220px;
+  min-height:56px;
+  padding:15px 28px;
+  margin:6px;
+  border:0;
+  border-radius:18px;
+  font-weight:800;
+  cursor:pointer;
 }
-
-.admin-row label {
-    display: block;
-    margin-bottom: 7px;
-
-    font-size: 13px;
-    font-weight: 900;
 
-    letter-spacing: 1px;
+.primary{
+  background:#111;
+  color:#fff;
 }
 
-.admin-row input,
-.admin-row select {
-    width: 100%;
-
-    padding: 14px;
-
-    border: 2px solid #d6d3cd;
-    border-radius: 14px;
-
-    background: white;
-
-    font-size: 17px;
+.secondary{
+  background:var(--gray);
+  color:#111;
 }
-
-.admin-note {
-    color: var(--muted);
 
-    font-size: 13px;
-
-    line-height: 1.5;
+.event{
+  font-weight:900;
+  text-transform:uppercase;
+  margin:4px 0 14px;
 }
-
 
-/* =========================
-   PAYMENT — NO SCROLL
-========================= */
-
-#payment-screen {
-    height: 100dvh;
-    min-height: 100dvh;
-    max-height: 100dvh;
-
-    overflow: hidden;
-
-    padding:
-        max(8px, env(safe-area-inset-top))
-        22px
-        max(8px, env(safe-area-inset-bottom));
-
-    justify-content: center;
+.badge{
+  border:1px solid #aaa;
+  border-radius:50px;
+  padding:8px 14px;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:1px;
+  margin-bottom:20px;
 }
-
-#payment-screen .brand {
-    margin: 0 0 3px;
 
-    font-size: 15px;
-
-    letter-spacing: 4px;
+.card{
+  width:min(540px,100%);
+  background:#fff;
+  padding:28px;
+  border-radius:26px;
 }
-
-.payment-title {
-    font-size:
-        clamp(23px, 4vh, 34px);
 
-    font-weight: 900;
-    line-height: 1;
-
-    margin: 2px 0;
+.row{
+  text-align:left;
+  margin:18px 0;
 }
 
-#payment-screen > .subtitle {
-    font-size: 13px;
-
-    margin: 3px 0 6px;
+.row label{
+  display:block;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:1px;
+  margin-bottom:7px;
 }
-
-.payment-card {
-    width: min(720px, 100%);
-
-    background: white;
-
-    border-radius: 22px;
-
-    padding: 13px 18px;
-
-    margin: 3px 0 4px;
 
-    box-shadow:
-        0 6px 25px
-        rgba(0,0,0,.06);
+.row input,.row select{
+  width:100%;
+  padding:14px;
+  border:2px solid #d6d3cd;
+  border-radius:14px;
+  background:#fff;
 }
 
-.payment-layout {
-    display: grid;
-
-    grid-template-columns:
-        .9fr 1.1fr;
-
-    gap: 16px;
-
-    align-items: center;
+.note{
+  font-size:13px;
+  line-height:1.45;
+  color:var(--muted);
 }
 
-.payment-instructions {
-    text-align: left;
+/* PAYMENT */
 
-    border-right:
-        1px solid #ddd;
-
-    padding-right: 15px;
+#payment-screen{
+  height:100dvh;
+  max-height:100dvh;
+  overflow:hidden;
+  padding:8px 22px;
 }
-
-.payment-price-label {
-    font-size: 11px;
-    font-weight: 900;
 
-    letter-spacing: 1px;
+#payment-screen .brand{
+  font-size:15px;
+  margin-bottom:3px;
 }
-
-.price {
-    font-size:
-        clamp(36px, 6vh, 50px);
-
-    font-weight: 900;
 
-    line-height: 1;
-
-    margin: 5px 0 9px;
+.payment-title{
+  font-size:clamp(23px,4vh,34px);
+  font-weight:900;
 }
-
-.payment-step {
-    display: flex;
-
-    align-items: flex-start;
 
-    gap: 8px;
-
-    margin: 7px 0;
-
-    font-size: 12px;
-
-    line-height: 1.25;
+.payment-card{
+  width:min(720px,100%);
+  background:#fff;
+  border-radius:22px;
+  padding:13px 18px;
+  margin:4px 0;
 }
-
-.step-number {
-    flex: 0 0 23px;
 
-    width: 23px;
-    height: 23px;
-
-    border-radius: 50%;
-
-    background: black;
-    color: white;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    font-size: 11px;
-    font-weight: 900;
+.payment-grid{
+  display:grid;
+  grid-template-columns:.9fr 1.1fr;
+  gap:16px;
+  align-items:center;
 }
-
-.qr-side {
-    display: flex;
-
-    flex-direction: column;
 
-    align-items: center;
+.instructions{
+  text-align:left;
+  border-right:1px solid #ddd;
+  padding-right:15px;
 }
 
-.qr-wrapper {
-    width:
-        min(210px, 27vh);
-
-    height:
-        min(210px, 27vh);
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    background: white;
-
-    overflow: hidden;
+.price{
+  font-size:clamp(36px,6vh,50px);
+  font-weight:900;
+  margin:5px 0 9px;
 }
 
-#payment-qr {
-    width: 100%;
-    height: 100%;
-
-    object-fit: contain;
+.step{
+  display:flex;
+  gap:8px;
+  margin:7px 0;
+  font-size:12px;
+  line-height:1.25;
 }
-
-.qr-error {
-    width: 100%;
-    height: 100%;
 
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border:
-        2px dashed #aaa;
-
-    color: #777;
-
-    padding: 15px;
-
-    font-size: 12px;
+.num{
+  flex:0 0 23px;
+  height:23px;
+  border-radius:50%;
+  background:#111;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
 }
-
-.payee {
-    margin-top: 3px;
 
-    font-size: 14px;
-    font-weight: 900;
+.qrbox{
+  width:min(210px,27vh);
+  height:min(210px,27vh);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:auto;
 }
-
-.bank-detail {
-    margin-top: 2px;
-
-    color: var(--muted);
 
-    font-size: 11px;
+.qrbox img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
 }
 
-.payment-warning {
-    width: min(620px, 100%);
-
-    margin: 3px auto;
-
-    color: var(--muted);
-
-    font-size: 10px;
-
-    line-height: 1.25;
+.payee{
+  font-size:14px;
+  font-weight:900;
+  margin-top:3px;
 }
-
-.payment-actions {
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    flex-wrap: nowrap;
 
-    margin-top: 2px;
+.tiny{
+  font-size:10px;
+  color:var(--muted);
 }
 
-#payment-screen .primary,
-#payment-screen .secondary {
-    min-height: 44px;
+/* CAMERA */
 
-    padding: 9px 18px;
-
-    margin: 4px;
-
-    border-radius: 14px;
-
-    font-size: 13px;
+#camera-screen{
+  padding:0;
+  background:#000;
+  position:relative;
+  overflow:hidden;
 }
-
-.confirm-payment {
-    min-width: 230px;
-}
-
-
-/* =========================
-   CAMERA
-========================= */
 
-#camera-screen {
-    padding: 0;
-
-    background: black;
-
-    position: relative;
-
-    overflow: hidden;
+.stage{
+  position:absolute;
+  inset:0;
 }
 
-.camera-stage {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
+.stage video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transform:scaleX(-1);
 }
 
-#camera {
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-
-    transform: scaleX(-1);
+.camera-brand{
+  position:absolute;
+  z-index:5;
+  top:max(24px,env(safe-area-inset-top));
+  left:0;
+  right:0;
+  color:#fff;
+  font-weight:900;
+  letter-spacing:4px;
 }
-
-.camera-brand {
-    position: absolute;
-
-    z-index: 5;
 
-    top:
-        max(
-            24px,
-            env(safe-area-inset-top)
-        );
-
-    left: 0;
-    right: 0;
-
-    color: white;
-
-    font-size: 18px;
-    font-weight: 900;
-
-    letter-spacing: 4px;
-
-    text-shadow:
-        0 2px 8px
-        rgba(0,0,0,.5);
+#countdown{
+  position:absolute;
+  inset:0;
+  z-index:8;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:160px;
+  font-weight:900;
 }
-
-#countdown {
-    position: absolute;
-
-    inset: 0;
 
-    z-index: 8;
-
-    display: none;
-
-    align-items: center;
-    justify-content: center;
-
-    color: white;
-
-    font-size: 160px;
-    font-weight: 900;
-
-    text-shadow:
-        0 4px 25px
-        rgba(0,0,0,.55);
+.camera-controls{
+  position:absolute;
+  z-index:10;
+  left:0;
+  right:0;
+  bottom:max(30px,env(safe-area-inset-bottom));
 }
-
-.camera-controls {
-    position: absolute;
-
-    z-index: 10;
 
-    left: 0;
-    right: 0;
-
-    bottom:
-        max(
-            30px,
-            env(safe-area-inset-bottom)
-        );
+#photo{
+  display:block;
+  width:min(520px,100%);
+  max-height:62vh;
+  background:#111;
+  border-radius:22px;
+  margin:18px 0;
 }
 
-.camera-controls .primary {
-    background:
-        rgba(0,0,0,.85);
-
-    border:
-        2px solid white;
+#flash{
+  position:fixed;
+  inset:0;
+  z-index:999;
+  background:#fff;
+  opacity:0;
+  pointer-events:none;
 }
-
-
-/* =========================
-   FLASH
-========================= */
-
-#flash {
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 999;
 
-    background: white;
-
-    opacity: 0;
-
-    pointer-events: none;
+.flash{
+  animation:f .35s;
 }
 
-.flash-active {
-    animation:
-        flash .35s ease;
+@keyframes f{
+  35%{opacity:1}
+  100%{opacity:0}
 }
-
-@keyframes flash {
 
-    0% {
-        opacity: 0;
-    }
+/* DIGITAL COPY */
 
-    35% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-    }
-
+.upload-spinner{
+  width:54px;
+  height:54px;
+  border:5px solid #ddd;
+  border-top-color:#111;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+  margin:0 auto 20px;
 }
-
-
-/* =========================
-   PHOTO REVIEW
-========================= */
 
-#photo {
-    display: block;
-
-    width:
-        min(520px, 100%);
-
-    max-height: 62vh;
-
-    object-fit: contain;
-
-    background: #111;
-
-    border-radius: 22px;
-
-    margin: 18px 0;
+@keyframes spin{
+  to{transform:rotate(360deg)}
 }
-
-
-/* =========================
-   RECEIPT — 2:3
-========================= */
 
-.receipt-stage {
-    background: #d9d6d0;
-
-    padding: 22px;
-
-    border-radius: 24px;
-
-    margin: 12px 0 18px;
+.digital-card{
+  width:min(520px,100%);
+  background:#fff;
+  border-radius:26px;
+  padding:24px;
 }
-
-.receipt {
-    width: 300px;
-
-    aspect-ratio: 2 / 3;
-
-    background: white;
-    color: black;
-
-    padding: 17px;
 
-    display: flex;
-
-    flex-direction: column;
-
-    box-shadow:
-        0 8px 28px
-        rgba(0,0,0,.18);
+.digital-photo{
+  width:min(280px,80%);
+  max-height:280px;
+  object-fit:cover;
+  border-radius:18px;
+  filter:grayscale(1);
+  margin-bottom:12px;
 }
-
-.receipt-brand {
-    font-weight: 900;
 
-    font-size: 18px;
-
-    letter-spacing: 2px;
-
-    line-height: 1.1;
-
-    padding: 3px 0 11px;
+.digital-qr{
+  width:230px;
+  height:230px;
+  margin:10px auto;
+  padding:10px;
+  border:1px solid #ddd;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#fff;
 }
-
-.rule {
-    height: 2px;
 
-    flex: 0 0 2px;
-
-    background: black;
-
-    width: 100%;
+.digital-qr img,
+.digital-qr canvas{
+  max-width:100%!important;
+  max-height:100%!important;
 }
-
-.receipt-photo {
-    flex: 1;
 
-    min-height: 0;
-
-    margin: 10px 0;
-
-    overflow: hidden;
-
-    background: #eee;
+.error{
+  color:#8c2525;
+  font-size:14px;
 }
-
-#receipt-photo {
-    width: 100%;
-    height: 100%;
 
-    display: block;
+/* RECEIPT */
 
-    object-fit: cover;
-
-    filter:
-        grayscale(1)
-        contrast(1.15);
-}
-
-.receipt-details {
-    padding: 10px 2px;
+.receipt-stage{
+  background:#d9d6d0;
+  padding:22px;
+  border-radius:24px;
+  margin:12px 0 18px;
 }
 
-#receipt-event {
-    font-weight: 900;
-
-    font-size: 15px;
-
-    line-height: 1.2;
-
-    text-transform: uppercase;
+.receipt{
+  width:300px;
+  aspect-ratio:2/3;
+  background:#fff;
+  padding:17px;
+  display:flex;
+  flex-direction:column;
 }
-
-#receipt-date {
-    margin-top: 5px;
 
-    font-size: 11px;
-
-    letter-spacing: 1px;
+.receipt-brand{
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:2px;
+  padding-bottom:10px;
 }
-
-.receipt-message {
-    padding: 11px 0 3px;
-
-    font-size: 12px;
-    font-weight: 900;
 
-    letter-spacing: .5px;
+.rule{
+  height:2px;
+  background:#000;
 }
 
-
-/* =========================
-   HIDDEN PRINT CANVAS
-========================= */
-
-#thermal-output {
-    position: fixed;
-
-    left: -99999px;
-    top: -99999px;
+.receipt-photo{
+  flex:1;
+  min-height:0;
+  margin:10px 0;
+  overflow:hidden;
 }
-
 
-/* =========================
-   PRINTING
-========================= */
-
-.print-icon {
-    font-size: 86px;
-
-    margin-bottom: 18px;
+.receipt-photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:grayscale(1) contrast(1.15);
 }
-
-.printing-dots {
-    display: flex;
 
-    gap: 8px;
-
-    margin-top: 25px;
+.details{
+  padding:10px 2px;
 }
-
-.printing-dots span {
-    width: 10px;
-    height: 10px;
-
-    border-radius: 50%;
-
-    background: black;
 
-    animation:
-        loadingDot 1.2s
-        infinite ease-in-out;
+.details b{
+  font-size:15px;
 }
 
-.printing-dots span:nth-child(2) {
-    animation-delay: .15s;
+.details div{
+  font-size:11px;
+  margin-top:5px;
 }
 
-.printing-dots span:nth-child(3) {
-    animation-delay: .3s;
+.footer{
+  font-size:12px;
+  font-weight:900;
+  padding-top:11px;
 }
 
-@keyframes loadingDot {
-
-    0%,
-    80%,
-    100% {
-        transform: scale(.6);
-        opacity: .35;
-    }
-
-    40% {
-        transform: scale(1);
-        opacity: 1;
-    }
-
+.printing{
+  font-size:86px;
+  margin-bottom:18px;
 }
-
-
-/* =========================
-   THANK YOU
-========================= */
-
-.reset-text {
-    margin-top: 30px;
-
-    color: var(--muted);
 
-    font-size: 14px;
+#thermal-output{
+  position:fixed;
+  left:-99999px;
+  top:-99999px;
 }
 
+@media(max-width:699px){
+  #payment-screen{
+    height:auto;
+    max-height:none;
+    overflow-y:auto;
+  }
 
-/* =========================
-   MOBILE
-========================= */
+  .payment-grid{
+    grid-template-columns:1fr;
+  }
 
-@media (max-width: 699px) {
+  .instructions{
+    border-right:0;
+    border-bottom:1px solid #ddd;
+    padding:0 0 10px;
+  }
 
-    #payment-screen {
-        overflow-y: auto;
-
-        height: auto;
-        max-height: none;
-    }
-
-    .payment-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .payment-instructions {
-        border-right: 0;
-
-        border-bottom:
-            1px solid #ddd;
-
-        padding-right: 0;
-        padding-bottom: 10px;
-    }
-
-    .qr-wrapper {
-        width: 190px;
-        height: 190px;
-    }
-
+  .qrbox{
+    width:190px;
+    height:190px;
+  }
 }
-
 </style>
-
 </head>
-
 
 <body>
 
-
 <div id="flash"></div>
 
+<section id="home-screen" class="screen">
 
+<div id="admin-trigger" class="brand">
+BLACKCAT STUDIOS
+</div>
 
-<!-- HOME -->
+<img src="blackcat-icon.png" class="cat">
 
-<section
-    id="home-screen"
-    class="screen">
+<h1>Live in the Moment.</h1>
 
-    <div
-        id="admin-trigger"
-        class="brand">
+<div class="subtitle">
+Take a photo. Keep the receipt.
+</div>
 
-        BLACKCAT STUDIOS
+<div id="home-event" class="event"></div>
+<div id="home-mode" class="badge"></div>
 
-    </div>
-
-
-    <img
-        src="blackcat-icon.png"
-        class="cat-icon cat-icon-large"
-        alt="Blackcat Studios">
-
-
-    <h1>
-
-        Live in the Moment.
-
-    </h1>
-
-
-    <div class="subtitle">
-
-        Take a photo.
-        Keep the receipt.
-
-    </div>
-
-
-    <div
-        id="home-event"
-        class="event-home">
-    </div>
-
-
-    <div
-        id="home-mode"
-        class="mode-badge">
-    </div>
-
-
-    <button
-        class="primary"
-        onclick="guestStart()">
-
-        📷 &nbsp; TAP TO START
-
-    </button>
+<button class="primary" onclick="guestStart()">
+📷 TAP TO START
+</button>
 
 </section>
 
 
+<section id="pin-screen" class="screen hidden">
 
-<!-- PIN -->
+<div class="brand">BLACKCAT STUDIOS</div>
 
-<section
-    id="pin-screen"
-    class="screen hidden">
+<div class="card">
 
+<h1>Admin</h1>
 
-    <div class="brand">
+<input id="pin-input"
+type="password"
+inputmode="numeric"
+maxlength="4"
+placeholder="••••">
 
-        BLACKCAT STUDIOS
+<br><br>
 
-    </div>
+<button class="primary" onclick="checkPin()">
+OPEN ADMIN
+</button>
 
+<button class="secondary"
+onclick="showScreen('home-screen')">
+CANCEL
+</button>
 
-    <img
-        src="blackcat-icon.png"
-        class="cat-icon cat-icon-small"
-        alt="">
-
-
-    <div class="admin-card">
-
-
-        <h1 style="font-size:32px;">
-
-            Admin
-
-        </h1>
+</div>
+</section>
 
 
-        <div class="subtitle">
+<section id="admin-screen" class="screen hidden">
 
-            Enter your PIN.
+<div class="brand">BLACKCAT STUDIOS</div>
 
-        </div>
+<div class="card">
+
+<h1>Event Settings</h1>
+
+<div class="row">
+<label>EVENT NAME</label>
+<input id="admin-event">
+</div>
+
+<div class="row">
+<label>BOOTH MODE</label>
+
+<select id="admin-mode">
+
+<option value="private">
+Private Event — No Payment
+</option>
+
+<option value="public">
+Pay Per Use
+</option>
+
+</select>
+</div>
+
+<div class="row">
+<label>PRICE PER PHOTO</label>
+<input id="admin-price" type="number">
+</div>
+
+<div class="row">
+<label>AUTO RESET</label>
+
+<select id="admin-reset">
+<option>5</option>
+<option>8</option>
+<option>10</option>
+<option>15</option>
+</select>
+
+</div>
+
+<button class="primary" onclick="saveAdmin()">
+SAVE SETTINGS
+</button>
+
+</div>
+</section>
 
 
-        <div class="admin-row">
+<section id="payment-screen" class="screen hidden">
 
-            <input
-                id="pin-input"
-                type="password"
-                inputmode="numeric"
-                maxlength="4"
-                placeholder="••••">
+<div class="brand">BLACKCAT STUDIOS</div>
 
-        </div>
+<div class="payment-title">
+Ready for Your Photo?
+</div>
 
+<div class="subtitle">
+Please pay to continue.
+</div>
 
-        <button
-            class="primary"
-            onclick="checkPin()">
+<div class="payment-card">
 
-            OPEN ADMIN
+<div class="payment-grid">
 
-        </button>
+<div class="instructions">
 
+<b>PHOTO SESSION</b>
 
-        <button
-            class="secondary"
-            onclick="showScreen('home-screen')">
+<div id="payment-price" class="price">
+₱100
+</div>
 
-            CANCEL
+<div class="step">
+<span class="num">1</span>
+<span>Open your banking app or e-wallet.</span>
+</div>
 
-        </button>
+<div class="step">
+<span class="num">2</span>
+<span>Scan the QR code to pay.</span>
+</div>
 
-    </div>
+<div class="step">
+<span class="num">3</span>
+<span>Tap CONFIRMED PAYMENT.</span>
+</div>
+
+</div>
+
+<div>
+
+<div class="qrbox">
+
+<img
+id="payment-qr"
+src="qr-code.png?v=2">
+
+</div>
+
+<div class="payee">
+BLACKCAT STUDIOS
+</div>
+
+<div class="tiny">
+Scan to Pay
+</div>
+
+</div>
+
+</div>
+</div>
+
+<button class="secondary"
+onclick="showScreen('home-screen')">
+CANCEL
+</button>
+
+<button class="primary"
+onclick="startCamera()">
+✓ CONFIRMED PAYMENT
+</button>
 
 </section>
 
 
+<section id="camera-screen" class="screen hidden">
 
-<!-- ADMIN -->
+<div class="stage">
+<video id="camera" autoplay playsinline muted></video>
+</div>
 
-<section
-    id="admin-screen"
-    class="screen hidden">
+<div class="camera-brand">
+BLACKCAT STUDIOS
+</div>
 
+<div id="countdown">3</div>
 
-    <div class="brand">
+<div class="camera-controls">
 
-        BLACKCAT STUDIOS
+<button
+id="capture-button"
+class="primary"
+onclick="startCountdown()">
 
-    </div>
+📷 TAKE PHOTO
 
+</button>
 
-    <img
-        src="blackcat-icon.png"
-        class="cat-icon cat-icon-small"
-        alt="">
-
-
-    <div class="admin-card">
-
-
-        <h1 style="font-size:30px;">
-
-            Event Settings
-
-        </h1>
+</div>
+</section>
 
 
-        <div class="admin-row">
+<section id="preview-screen" class="screen hidden">
 
-            <label>
-                EVENT NAME
-            </label>
+<div class="brand">
+BLACKCAT STUDIOS
+</div>
 
-            <input
-                id="admin-event"
-                type="text"
-                maxlength="32"
-                placeholder="Event Name">
+<h1>Your Photo</h1>
 
-        </div>
+<div class="subtitle">
+Love it?
+</div>
 
+<canvas id="photo"></canvas>
 
-        <div class="admin-row">
+<button
+class="secondary"
+onclick="showScreen('camera-screen')">
 
-            <label>
-                BOOTH MODE
-            </label>
+RETAKE
 
-            <select id="admin-mode">
+</button>
 
-                <option value="private">
+<button
+class="primary"
+onclick="usePhoto()">
 
-                    Private Event —
-                    No Payment
+YES, KEEP IT
 
-                </option>
-
-                <option value="public">
-
-                    Pay Per Use
-
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div class="admin-row">
-
-            <label>
-                PRICE PER PHOTO
-            </label>
-
-            <input
-                id="admin-price"
-                type="number"
-                min="0"
-                step="1"
-                placeholder="100">
-
-        </div>
-
-
-        <div class="admin-row">
-
-            <label>
-                AUTO RESET
-            </label>
-
-            <select id="admin-reset">
-
-                <option value="5">
-                    5 seconds
-                </option>
-
-                <option value="8">
-                    8 seconds
-                </option>
-
-                <option value="10">
-                    10 seconds
-                </option>
-
-                <option value="15">
-                    15 seconds
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div class="admin-note">
-
-            PRIVATE EVENT skips payment completely.
-
-            <br><br>
-
-            PAY PER USE shows the payment QR
-            before opening the camera.
-
-        </div>
-
-
-        <br>
-
-
-        <button
-            class="primary"
-            onclick="saveAdmin()">
-
-            SAVE SETTINGS
-
-        </button>
-
-
-        <button
-            class="secondary"
-            onclick="showScreen('home-screen')">
-
-            CANCEL
-
-        </button>
-
-    </div>
+</button>
 
 </section>
 
 
+<section id="upload-screen" class="screen hidden">
 
-<!-- PAYMENT -->
+<div class="brand">
+BLACKCAT STUDIOS
+</div>
 
-<section
-    id="payment-screen"
-    class="screen hidden">
+<div class="card">
 
+<div class="upload-spinner"></div>
 
-    <div class="brand">
+<h1>
+Preparing Your Digital Copy
+</h1>
 
-        BLACKCAT STUDIOS
+<div class="subtitle">
+Uploading your photo...
+</div>
 
-    </div>
+</div>
+</section>
 
 
-    <div class="payment-title">
+<section id="upload-error-screen" class="screen hidden">
 
-        Ready for Your Photo?
+<div class="brand">
+BLACKCAT STUDIOS
+</div>
 
-    </div>
+<div class="card">
 
+<h1>
+Digital Copy Unavailable
+</h1>
 
-    <div class="subtitle">
+<div
+id="upload-error-text"
+class="error">
 
-        Please pay to continue.
+Upload failed.
 
-    </div>
+</div>
 
+<br>
 
-    <div class="payment-card">
+<button
+class="primary"
+onclick="retryUpload()">
 
+RETRY
 
-        <div class="payment-layout">
+</button>
 
+<button
+class="secondary"
+onclick="showScreen('receipt-screen')">
 
-            <div class="payment-instructions">
+CONTINUE WITHOUT QR
 
+</button>
 
-                <div class="payment-price-label">
+</div>
+</section>
 
-                    PHOTO SESSION
 
-                </div>
+<section id="digital-screen" class="screen hidden">
 
+<div class="brand">
+BLACKCAT STUDIOS
+</div>
 
-                <div
-                    id="payment-price"
-                    class="price">
+<div class="digital-card">
 
-                    ₱100
+<h1>
+Take It With You
+</h1>
 
-                </div>
+<div class="subtitle">
+Scan the QR to save your digital copy.
+</div>
 
+<img
+id="digital-photo"
+class="digital-photo">
 
-                <div class="payment-step">
+<div class="digital-qr">
 
-                    <div class="step-number">
-                        1
-                    </div>
+<div id="digital-qr"></div>
 
-                    <div>
+</div>
 
-                        Open your banking
-                        app or e-wallet.
+<div class="note">
+Scan with your phone camera.
+Your photo will open in the browser.
+</div>
 
-                    </div>
+<br>
 
-                </div>
+<button
+class="primary"
+onclick="showScreen('receipt-screen')">
 
+CONTINUE
 
-                <div class="payment-step">
+</button>
 
-                    <div class="step-number">
-                        2
-                    </div>
+</div>
+</section>
 
-                    <div>
 
-                        Scan the QR
-                        code to pay.
+<section id="receipt-screen" class="screen hidden">
 
-                    </div>
+<div class="brand">
+BLACKCAT STUDIOS
+</div>
 
-                </div>
+<h1>
+Your Photo Receipt
+</h1>
 
+<div class="receipt-stage">
 
-                <div class="payment-step">
+<div class="receipt">
 
-                    <div class="step-number">
-                        3
-                    </div>
+<div class="receipt-brand">
+BLACKCAT STUDIOS
+</div>
 
-                    <div>
+<div class="rule"></div>
 
-                        Complete payment,
-                        then tap
+<div class="receipt-photo">
 
-                        <strong>
-                            CONFIRMED PAYMENT
-                        </strong>.
+<img id="receipt-photo">
 
-                    </div>
+</div>
 
-                </div>
+<div class="rule"></div>
 
-            </div>
+<div class="details">
 
+<b id="receipt-event">
+YOUR EVENT
+</b>
 
+<div id="receipt-date"></div>
 
-            <div class="qr-side">
+</div>
 
+<div class="rule"></div>
 
-                <div class="qr-wrapper">
+<div class="footer">
+KEEP THIS RECEIPT ♡
+</div>
 
+</div>
+</div>
 
-                    <img
-                        id="payment-qr"
-                        src="qr-code.png"
-                        alt="BLACKCAT STUDIOS payment QR"
-                        onerror="qrFailed()">
+<button
+class="secondary"
+onclick="backToDigital()">
 
+DIGITAL COPY
 
-                    <div
-                        id="qr-error"
-                        class="qr-error hidden">
+</button>
 
-                        QR image not found.
+<button
+class="primary"
+onclick="printPhoto()">
 
-                        <br><br>
+🖨️ PRINT PHOTO
 
-                        Check qr-code.png.
-
-                    </div>
-
-
-                </div>
-
-
-                <div class="payee">
-
-                    BLACKCAT STUDIOS
-
-                </div>
-
-
-                <div class="bank-detail">
-
-                    MariBank • InstaPay
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-
-    </div>
-
-
-    <div class="payment-warning">
-
-        Complete your payment
-        before proceeding.
-
-    </div>
-
-
-    <div class="payment-actions">
-
-
-        <button
-            class="secondary"
-            onclick="cancelPayment()">
-
-            CANCEL
-
-        </button>
-
-
-        <button
-            class="primary confirm-payment"
-            onclick="confirmedPayment()">
-
-            ✓ CONFIRMED PAYMENT
-
-        </button>
-
-
-    </div>
+</button>
 
 </section>
 
 
+<section id="printing-screen" class="screen hidden">
 
-<!-- CAMERA -->
+<div class="brand">
+BLACKCAT STUDIOS
+</div>
 
-<section
-    id="camera-screen"
-    class="screen hidden">
+<div class="printing">
+🖨️
+</div>
 
+<h1>Printing...</h1>
 
-    <div class="camera-stage">
-
-        <video
-            id="camera"
-            autoplay
-            playsinline
-            muted>
-        </video>
-
-    </div>
-
-
-    <div class="camera-brand">
-
-        BLACKCAT STUDIOS
-
-    </div>
-
-
-    <div id="countdown">
-        3
-    </div>
-
-
-    <div class="camera-controls">
-
-
-        <button
-            id="capture-button"
-            class="primary"
-            onclick="startCountdown()">
-
-            📷 &nbsp;
-            TAKE PHOTO
-
-        </button>
-
-
-    </div>
+<div class="subtitle">
+Your photo is printing.
+</div>
 
 </section>
 
 
+<section id="thank-screen" class="screen hidden">
 
-<!-- PHOTO REVIEW -->
+<div class="brand">
+BLACKCAT STUDIOS
+</div>
 
-<section
-    id="preview-screen"
-    class="screen hidden">
+<img
+src="blackcat-icon.png"
+class="cat">
 
+<h1>Thank You!</h1>
 
-    <div class="brand">
+<div class="subtitle">
+Keep this receipt.<br>
+Keep the moment. ♡
+</div>
 
-        BLACKCAT STUDIOS
-
-    </div>
-
-
-    <img
-        src="blackcat-icon.png"
-        class="cat-icon cat-icon-small"
-        alt="">
-
-
-    <h1>
-        Your Photo
-    </h1>
-
-
-    <div class="subtitle">
-
-        Love it?
-
-    </div>
-
-
-    <canvas id="photo">
-    </canvas>
-
-
-    <div>
-
-        <button
-            class="secondary"
-            onclick="retakePhoto()">
-
-            RETAKE
-
-        </button>
-
-
-        <button
-            class="primary"
-            onclick="usePhoto()">
-
-            YES, KEEP IT
-
-        </button>
-
-    </div>
+<div id="reset-text"></div>
 
 </section>
 
 
-
-<!-- RECEIPT -->
-
-<section
-    id="receipt-screen"
-    class="screen hidden">
-
-
-    <div class="brand">
-
-        BLACKCAT STUDIOS
-
-    </div>
-
-
-    <h1>
-
-        Your Photo Receipt
-
-    </h1>
-
-
-    <div class="subtitle">
-
-        Here's your little memory.
-
-    </div>
-
-
-    <div class="receipt-stage">
-
-
-        <div class="receipt">
-
-
-            <div class="receipt-brand">
-
-                BLACKCAT STUDIOS
-
-            </div>
-
-
-            <div class="rule">
-            </div>
-
-
-            <div class="receipt-photo">
-
-                <img
-                    id="receipt-photo"
-                    alt="Captured photo">
-
-            </div>
-
-
-            <div class="rule">
-            </div>
-
-
-            <div class="receipt-details">
-
-                <div
-                    id="receipt-event">
-
-                    YOUR EVENT
-
-                </div>
-
-
-                <div
-                    id="receipt-date">
-
-                </div>
-
-            </div>
-
-
-            <div class="rule">
-            </div>
-
-
-            <div class="receipt-message">
-
-                KEEP THIS RECEIPT ♡
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div>
-
-        <button
-            class="secondary"
-            onclick="backToPhoto()">
-
-            BACK
-
-        </button>
-
-
-        <button
-            class="primary"
-            onclick="printPhoto()">
-
-            🖨️ &nbsp;
-            PRINT PHOTO
-
-        </button>
-
-    </div>
-
-</section>
-
-
-
-<!-- PRINTING -->
-
-<section
-    id="printing-screen"
-    class="screen hidden">
-
-
-    <div class="brand">
-
-        BLACKCAT STUDIOS
-
-    </div>
-
-
-    <img
-        src="blackcat-icon.png"
-        class="cat-icon cat-icon-small"
-        alt="">
-
-
-    <div class="print-icon">
-
-        🖨️
-
-    </div>
-
-
-    <h1>
-
-        Printing...
-
-    </h1>
-
-
-    <div class="subtitle">
-
-        Your photo is printing.
-
-    </div>
-
-
-    <div class="printing-dots">
-
-        <span></span>
-        <span></span>
-        <span></span>
-
-    </div>
-
-</section>
-
-
-
-<!-- THANK YOU -->
-
-<section
-    id="thank-screen"
-    class="screen hidden">
-
-
-    <div class="brand">
-
-        BLACKCAT STUDIOS
-
-    </div>
-
-
-    <img
-        src="blackcat-icon.png"
-        class="cat-icon cat-icon-large"
-        alt="Blackcat Studios">
-
-
-    <h1>
-
-        Thank You!
-
-    </h1>
-
-
-    <div class="subtitle">
-
-        Keep this receipt.
-
-        <br>
-
-        Keep the moment. ♡
-
-    </div>
-
-
-    <div
-        id="reset-text"
-        class="reset-text">
-
-        Getting ready for
-        the next guest...
-
-    </div>
-
-</section>
-
-
-
-<!-- HIDDEN PRINT CANVAS -->
-
-<canvas id="thermal-output">
-</canvas>
-
+<canvas id="thermal-output"></canvas>
 
 
 <script>
+
+const SUPABASE_URL =
+"https://pmobreraykzwnmxrelyn.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_eFuJI4n0LwnlinktNZ3Axg_7tq69096";
+
+const sb =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
 
 
 const DEFAULT_PIN = "1234";
 
-
 let eventName =
-    localStorage.getItem("blackcatEvent")
-    || "YOUR EVENT";
-
+localStorage.getItem("blackcatEvent")
+|| "YOUR EVENT";
 
 let boothMode =
-    localStorage.getItem("blackcatMode")
-    || "private";
-
+localStorage.getItem("blackcatMode")
+|| "private";
 
 let photoPrice =
-    Number(
-        localStorage.getItem("blackcatPrice")
-        || 100
-    );
-
+Number(
+localStorage.getItem("blackcatPrice")
+|| 100
+);
 
 let resetSeconds =
-    Number(
-        localStorage.getItem("blackcatReset")
-        || 8
-    );
-
+Number(
+localStorage.getItem("blackcatReset")
+|| 8
+);
 
 let cameraStream = null;
-let adminHoldTimer = null;
-let resetTimer = null;
+
+let holdTimer = null;
+
+let currentBlob = null;
+
+let digitalUrl = "";
 
 
+function showScreen(id){
 
-/* =========================
-   SCREEN
-========================= */
+document
+.querySelectorAll(".screen")
+.forEach(s =>
+s.classList.add("hidden")
+);
 
+document
+.getElementById(id)
+.classList.remove("hidden");
 
-function showScreen(id) {
-
-    document
-        .querySelectorAll(".screen")
-        .forEach(function(screen) {
-
-            screen.classList.add("hidden");
-
-        });
-
-
-    document
-        .getElementById(id)
-        .classList
-        .remove("hidden");
-
-
-    window.scrollTo(0, 0);
+window.scrollTo(0,0);
 
 }
 
 
+function refreshHome(){
 
-/* =========================
-   HOME
-========================= */
+document
+.getElementById("home-event")
+.textContent =
+eventName;
 
-
-function refreshHome() {
-
-
-    document
-        .getElementById("home-event")
-        .textContent =
-        eventName;
-
-
-    document
-        .getElementById("home-mode")
-        .textContent =
-
-        boothMode === "private"
-        ? "PRIVATE EVENT"
-        : "PAY PER USE";
+document
+.getElementById("home-mode")
+.textContent =
+boothMode === "private"
+? "PRIVATE EVENT"
+: "PAY PER USE";
 
 }
 
 
-
-/* =========================
-   ADMIN LONG PRESS
-========================= */
-
-
-const adminTrigger =
-    document.getElementById(
-        "admin-trigger"
-    );
-
-
-function startAdminHold(event) {
-
-
-    event.preventDefault();
-
-
-    clearTimeout(
-        adminHoldTimer
-    );
-
-
-    adminHoldTimer =
-        setTimeout(function() {
-
-
-            document
-                .getElementById(
-                    "pin-input"
-                )
-                .value = "";
-
-
-            showScreen(
-                "pin-screen"
-            );
-
-
-        }, 2500);
-
-}
-
-
-function cancelAdminHold() {
-
-    clearTimeout(
-        adminHoldTimer
-    );
-
-}
-
-
-adminTrigger.addEventListener(
-    "touchstart",
-    startAdminHold,
-    { passive: false }
+const trigger =
+document.getElementById(
+"admin-trigger"
 );
 
 
-adminTrigger.addEventListener(
-    "touchend",
-    cancelAdminHold
+function holdStart(e){
+
+e.preventDefault();
+
+clearTimeout(holdTimer);
+
+holdTimer =
+setTimeout(()=>{
+
+document
+.getElementById("pin-input")
+.value="";
+
+showScreen(
+"pin-screen"
+);
+
+},2500);
+
+}
+
+
+function holdStop(){
+
+clearTimeout(
+holdTimer
+);
+
+}
+
+
+trigger.addEventListener(
+"mousedown",
+holdStart
+);
+
+trigger.addEventListener(
+"mouseup",
+holdStop
+);
+
+trigger.addEventListener(
+"mouseleave",
+holdStop
+);
+
+trigger.addEventListener(
+"touchstart",
+holdStart,
+{passive:false}
+);
+
+trigger.addEventListener(
+"touchend",
+holdStop
 );
 
 
-adminTrigger.addEventListener(
-    "touchcancel",
-    cancelAdminHold
+function checkPin(){
+
+if(
+document
+.getElementById("pin-input")
+.value
+===
+DEFAULT_PIN
+){
+
+openAdmin();
+
+}else{
+
+alert(
+"Incorrect PIN."
 );
 
+}
 
-adminTrigger.addEventListener(
-    "mousedown",
-    startAdminHold
+}
+
+
+function openAdmin(){
+
+document
+.getElementById("admin-event")
+.value =
+eventName === "YOUR EVENT"
+? ""
+: eventName;
+
+document
+.getElementById("admin-mode")
+.value =
+boothMode;
+
+document
+.getElementById("admin-price")
+.value =
+photoPrice;
+
+document
+.getElementById("admin-reset")
+.value =
+resetSeconds;
+
+showScreen(
+"admin-screen"
 );
 
+}
 
-adminTrigger.addEventListener(
-    "mouseup",
-    cancelAdminHold
+
+function saveAdmin(){
+
+eventName =
+document
+.getElementById("admin-event")
+.value
+.trim()
+||
+"YOUR EVENT";
+
+boothMode =
+document
+.getElementById("admin-mode")
+.value;
+
+photoPrice =
+Number(
+document
+.getElementById("admin-price")
+.value
+)
+||
+0;
+
+resetSeconds =
+Number(
+document
+.getElementById("admin-reset")
+.value
+)
+||
+8;
+
+localStorage.setItem(
+"blackcatEvent",
+eventName
 );
 
-
-adminTrigger.addEventListener(
-    "mouseleave",
-    cancelAdminHold
+localStorage.setItem(
+"blackcatMode",
+boothMode
 );
 
-
-
-/* =========================
-   PIN
-========================= */
-
-
-function checkPin() {
-
-
-    const pin =
-        document
-        .getElementById(
-            "pin-input"
-        )
-        .value;
-
-
-    if(
-        pin === DEFAULT_PIN
-    ) {
-
-        openAdmin();
-
-    }
-
-    else {
-
-
-        alert(
-            "Incorrect PIN."
-        );
-
-
-        document
-            .getElementById(
-                "pin-input"
-            )
-            .value = "";
-
-    }
-
-}
-
-
-
-/* =========================
-   ADMIN
-========================= */
-
-
-function openAdmin() {
-
-
-    document
-        .getElementById(
-            "admin-event"
-        )
-        .value =
-
-        eventName === "YOUR EVENT"
-        ? ""
-        : eventName;
-
-
-    document
-        .getElementById(
-            "admin-mode"
-        )
-        .value =
-        boothMode;
-
-
-    document
-        .getElementById(
-            "admin-price"
-        )
-        .value =
-        photoPrice;
-
-
-    document
-        .getElementById(
-            "admin-reset"
-        )
-        .value =
-        String(
-            resetSeconds
-        );
-
-
-    showScreen(
-        "admin-screen"
-    );
-
-}
-
-
-
-function saveAdmin() {
-
-
-    const newEvent =
-        document
-        .getElementById(
-            "admin-event"
-        )
-        .value
-        .trim();
-
-
-    eventName =
-        newEvent
-        || "YOUR EVENT";
-
-
-    boothMode =
-        document
-        .getElementById(
-            "admin-mode"
-        )
-        .value;
-
-
-    photoPrice =
-        Number(
-
-            document
-            .getElementById(
-                "admin-price"
-            )
-            .value
-
-        );
-
-
-    if(
-        !Number.isFinite(photoPrice)
-        ||
-        photoPrice < 0
-    ) {
-
-        photoPrice = 0;
-
-    }
-
-
-    resetSeconds =
-        Number(
-
-            document
-            .getElementById(
-                "admin-reset"
-            )
-            .value
-
-        );
-
-
-    localStorage.setItem(
-        "blackcatEvent",
-        eventName
-    );
-
-
-    localStorage.setItem(
-        "blackcatMode",
-        boothMode
-    );
-
-
-    localStorage.setItem(
-        "blackcatPrice",
-        String(photoPrice)
-    );
-
-
-    localStorage.setItem(
-        "blackcatReset",
-        String(resetSeconds)
-    );
-
-
-    refreshHome();
-
-
-    showScreen(
-        "home-screen"
-    );
-
-}
-
-
-
-/* =========================
-   START
-========================= */
-
-
-function guestStart() {
-
-
-    if(
-        boothMode === "public"
-        &&
-        photoPrice > 0
-    ) {
-
-
-        document
-            .getElementById(
-                "payment-price"
-            )
-            .textContent =
-
-            "₱" + photoPrice;
-
-
-        showScreen(
-            "payment-screen"
-        );
-
-
-    }
-
-    else {
-
-
-        startCamera();
-
-
-    }
-
-}
-
-
-
-/* =========================
-   QR
-========================= */
-
-
-function qrFailed() {
-
-
-    document
-        .getElementById(
-            "payment-qr"
-        )
-        .classList
-        .add("hidden");
-
-
-    document
-        .getElementById(
-            "qr-error"
-        )
-        .classList
-        .remove("hidden");
-
-}
-
-
-
-/* =========================
-   PAYMENT
-========================= */
-
-
-function cancelPayment() {
-
-
-    refreshHome();
-
-
-    showScreen(
-        "home-screen"
-    );
-
-}
-
-
-function confirmedPayment() {
-
-    startCamera();
-
-}
-
-
-
-/* =========================
-   CAMERA
-========================= */
-
-
-async function startCamera() {
-
-
-    try {
-
-
-        if(
-            !cameraStream
-        ) {
-
-
-            cameraStream =
-                await navigator
-                .mediaDevices
-                .getUserMedia({
-
-
-                    video: {
-
-                        facingMode:
-                            "user"
-
-                    },
-
-
-                    audio:
-                        false
-
-
-                });
-
-        }
-
-
-        const camera =
-            document
-            .getElementById(
-                "camera"
-            );
-
-
-        camera.srcObject =
-            cameraStream;
-
-
-        await camera.play();
-
-
-        showScreen(
-            "camera-screen"
-        );
-
-
-    }
-
-    catch(error) {
-
-
-        console.error(
-            error
-        );
-
-
-        alert(
-
-            "Camera could not be opened. "
-            +
-            "Please allow camera access."
-
-        );
-
-    }
-
-}
-
-
-
-/* =========================
-   COUNTDOWN
-========================= */
-
-
-function startCountdown() {
-
-
-    const countdown =
-        document.getElementById(
-            "countdown"
-        );
-
-
-    const button =
-        document.getElementById(
-            "capture-button"
-        );
-
-
-    button.disabled = true;
-
-
-    countdown.style.display =
-        "flex";
-
-
-    let number = 3;
-
-
-    countdown.textContent =
-        number;
-
-
-    const timer =
-        setInterval(function() {
-
-
-            number--;
-
-
-            if(
-                number > 0
-            ) {
-
-
-                countdown
-                    .textContent =
-                    number;
-
-
-            }
-
-            else {
-
-
-                clearInterval(
-                    timer
-                );
-
-
-                countdown.style.display =
-                    "none";
-
-
-                button.disabled =
-                    false;
-
-
-                capturePhoto();
-
-            }
-
-
-        }, 1000);
-
-}
-
-
-
-/* =========================
-   CAPTURE
-========================= */
-
-
-function capturePhoto() {
-
-
-    const video =
-        document.getElementById(
-            "camera"
-        );
-
-
-    const canvas =
-        document.getElementById(
-            "photo"
-        );
-
-
-    const ctx =
-        canvas.getContext(
-            "2d"
-        );
-
-
-    canvas.width =
-        video.videoWidth;
-
-
-    canvas.height =
-        video.videoHeight;
-
-
-    ctx.save();
-
-
-    ctx.translate(
-        canvas.width,
-        0
-    );
-
-
-    ctx.scale(
-        -1,
-        1
-    );
-
-
-    ctx.drawImage(
-
-        video,
-
-        0,
-        0,
-
-        canvas.width,
-        canvas.height
-
-    );
-
-
-    ctx.restore();
-
-
-    flashScreen();
-
-
-    setTimeout(function() {
-
-
-        showScreen(
-            "preview-screen"
-        );
-
-
-    }, 300);
-
-}
-
-
-
-/* =========================
-   FLASH
-========================= */
-
-
-function flashScreen() {
-
-
-    const flash =
-        document
-        .getElementById(
-            "flash"
-        );
-
-
-    flash
-        .classList
-        .remove(
-            "flash-active"
-        );
-
-
-    void flash.offsetWidth;
-
-
-    flash
-        .classList
-        .add(
-            "flash-active"
-        );
-
-}
-
-
-
-/* =========================
-   RETAKE
-========================= */
-
-
-function retakePhoto() {
-
-    showScreen(
-        "camera-screen"
-    );
-
-}
-
-
-
-/* =========================
-   USE PHOTO
-========================= */
-
-
-function usePhoto() {
-
-
-    const canvas =
-        document.getElementById(
-            "photo"
-        );
-
-
-    const image =
-        canvas.toDataURL(
-            "image/jpeg",
-            .94
-        );
-
-
-    document
-        .getElementById(
-            "receipt-photo"
-        )
-        .src =
-        image;
-
-
-    document
-        .getElementById(
-            "receipt-event"
-        )
-        .textContent =
-        eventName;
-
-
-    document
-        .getElementById(
-            "receipt-date"
-        )
-        .textContent =
-        currentDate();
-
-
-    showScreen(
-        "receipt-screen"
-    );
-
-}
-
-
-
-/* =========================
-   DATE
-========================= */
-
-
-function currentDate() {
-
-
-    return new Date()
-        .toLocaleDateString(
-
-            "en-PH",
-
-            {
-
-                month:
-                    "short",
-
-                day:
-                    "2-digit",
-
-                year:
-                    "numeric"
-
-            }
-
-        )
-        .toUpperCase();
-
-}
-
-
-
-/* =========================
-   BACK
-========================= */
-
-
-function backToPhoto() {
-
-
-    showScreen(
-        "preview-screen"
-    );
-
-}
-
-
-
-/* =========================
-   PRINT
-========================= */
-
-
-function printPhoto() {
-
-
-    createPrintFile();
-
-
-    showScreen(
-        "printing-screen"
-    );
-
-
-    setTimeout(function() {
-
-
-        showThankYou();
-
-
-    }, 2200);
-
-}
-
-
-
-/* =========================
-   100 × 150 DESIGN
-========================= */
-
-
-function createPrintFile() {
-
-
-    const source =
-        document.getElementById(
-            "photo"
-        );
-
-
-    const canvas =
-        document.getElementById(
-            "thermal-output"
-        );
-
-
-    const ctx =
-        canvas.getContext(
-            "2d"
-        );
-
-
-    const W = 600;
-    const H = 900;
-
-
-    canvas.width = W;
-    canvas.height = H;
-
-
-    ctx.fillStyle =
-        "#ffffff";
-
-
-    ctx.fillRect(
-        0,
-        0,
-        W,
-        H
-    );
-
-
-    ctx.fillStyle =
-        "#000000";
-
-
-    ctx.textAlign =
-        "center";
-
-
-    /* BRAND */
-
-
-    ctx.font =
-        "900 30px Arial";
-
-
-    ctx.fillText(
-
-        "BLACKCAT STUDIOS",
-
-        W / 2,
-
-        48
-
-    );
-
-
-    drawLine(
-        ctx,
-        70,
-        W
-    );
-
-
-    /* PHOTO */
-
-
-    const photoX = 20;
-    const photoY = 90;
-
-    const photoW =
-        W - 40;
-
-    const photoH =
-        600;
-
-
-    drawCoverImage(
-
-        ctx,
-
-        source,
-
-        photoX,
-        photoY,
-
-        photoW,
-        photoH
-
-    );
-
-
-    grayscaleRegion(
-
-        ctx,
-
-        photoX,
-        photoY,
-
-        photoW,
-        photoH
-
-    );
-
-
-    drawLine(
-        ctx,
-        710,
-        W
-    );
-
-
-    /* EVENT */
-
-
-    fitText(
-
-        ctx,
-
-        eventName
-        .toUpperCase(),
-
-        W - 50,
-
-        28,
-
-        18,
-
-        W / 2,
-
-        755
-
-    );
-
-
-    /* DATE */
-
-
-    ctx.font =
-        "18px Arial";
-
-
-    ctx.fillText(
-
-        currentDate(),
-
-        W / 2,
-
-        790
-
-    );
-
-
-    drawLine(
-        ctx,
-        815,
-        W
-    );
-
-
-    /* FOOTER */
-
-
-    ctx.font =
-        "900 19px Arial";
-
-
-    ctx.fillText(
-
-        "KEEP THIS RECEIPT ♡",
-
-        W / 2,
-
-        855
-
-    );
-
-}
-
-
-
-/* =========================
-   COVER IMAGE
-========================= */
-
-
-function drawCoverImage(
-
-    ctx,
-    source,
-
-    x,
-    y,
-
-    targetW,
-    targetH
-
-) {
-
-
-    const sourceW =
-        source.width;
-
-
-    const sourceH =
-        source.height;
-
-
-    const sourceRatio =
-        sourceW / sourceH;
-
-
-    const targetRatio =
-        targetW / targetH;
-
-
-    let sx = 0;
-    let sy = 0;
-
-    let sw = sourceW;
-    let sh = sourceH;
-
-
-    if(
-        sourceRatio >
-        targetRatio
-    ) {
-
-
-        sw =
-            sourceH
-            *
-            targetRatio;
-
-
-        sx =
-            (
-                sourceW
-                -
-                sw
-            )
-            /
-            2;
-
-
-    }
-
-    else {
-
-
-        sh =
-            sourceW
-            /
-            targetRatio;
-
-
-        sy =
-            (
-                sourceH
-                -
-                sh
-            )
-            /
-            2;
-
-    }
-
-
-    ctx.drawImage(
-
-        source,
-
-        sx,
-        sy,
-
-        sw,
-        sh,
-
-        x,
-        y,
-
-        targetW,
-        targetH
-
-    );
-
-}
-
-
-
-/* =========================
-   GRAYSCALE
-========================= */
-
-
-function grayscaleRegion(
-
-    ctx,
-
-    x,
-    y,
-
-    w,
-    h
-
-) {
-
-
-    const image =
-        ctx.getImageData(
-            x,
-            y,
-            w,
-            h
-        );
-
-
-    const data =
-        image.data;
-
-
-    for(
-        let i = 0;
-        i < data.length;
-        i += 4
-    ) {
-
-
-        const gray =
-
-            data[i] * .299
-
-            +
-
-            data[i + 1] * .587
-
-            +
-
-            data[i + 2] * .114;
-
-
-        const contrast =
-
-            Math.max(
-
-                0,
-
-                Math.min(
-
-                    255,
-
-                    (gray - 128)
-                    * 1.18
-                    + 128
-
-                )
-
-            );
-
-
-        data[i] =
-            contrast;
-
-
-        data[i + 1] =
-            contrast;
-
-
-        data[i + 2] =
-            contrast;
-
-    }
-
-
-    ctx.putImageData(
-        image,
-        x,
-        y
-    );
-
-}
-
-
-
-/* =========================
-   FIT TEXT
-========================= */
-
-
-function fitText(
-
-    ctx,
-    text,
-    maxWidth,
-    startSize,
-    minSize,
-    x,
-    y
-
-) {
-
-
-    let size =
-        startSize;
-
-
-    ctx.font =
-
-        "900 "
-        +
-        size
-        +
-        "px Arial";
-
-
-    while(
-
-        size >
-        minSize
-
-        &&
-
-        ctx.measureText(
-            text
-        ).width
-        >
-        maxWidth
-
-    ) {
-
-
-        size--;
-
-
-        ctx.font =
-
-            "900 "
-            +
-            size
-            +
-            "px Arial";
-
-    }
-
-
-    ctx.fillText(
-        text,
-        x,
-        y
-    );
-
-}
-
-
-
-/* =========================
-   LINE
-========================= */
-
-
-function drawLine(
-
-    ctx,
-    y,
-    width
-
-) {
-
-
-    ctx.save();
-
-
-    ctx.strokeStyle =
-        "#000000";
-
-
-    ctx.lineWidth =
-        2;
-
-
-    ctx.beginPath();
-
-
-    ctx.moveTo(
-        20,
-        y
-    );
-
-
-    ctx.lineTo(
-        width - 20,
-        y
-    );
-
-
-    ctx.stroke();
-
-
-    ctx.restore();
-
-}
-
-
-
-/* =========================
-   THANK YOU
-========================= */
-
-
-function showThankYou() {
-
-
-    if(
-        resetTimer
-    ) {
-
-
-        clearTimeout(
-            resetTimer
-        );
-
-    }
-
-
-    showScreen(
-        "thank-screen"
-    );
-
-
-    let remaining =
-        resetSeconds;
-
-
-    const text =
-        document
-        .getElementById(
-            "reset-text"
-        );
-
-
-    text.textContent =
-
-        "Next guest in "
-        +
-        remaining
-        +
-        " seconds...";
-
-
-    const countdown =
-        setInterval(function() {
-
-
-            remaining--;
-
-
-            if(
-                remaining > 0
-            ) {
-
-
-                text.textContent =
-
-                    "Next guest in "
-                    +
-                    remaining
-                    +
-                    " seconds...";
-
-
-            }
-
-            else {
-
-
-                clearInterval(
-                    countdown
-                );
-
-            }
-
-
-        }, 1000);
-
-
-    resetTimer =
-        setTimeout(function() {
-
-
-            clearInterval(
-                countdown
-            );
-
-
-            refreshHome();
-
-
-            showScreen(
-                "home-screen"
-            );
-
-
-        }, resetSeconds * 1000);
-
-}
-
-
-
-/* =========================
-   INITIALIZE
-========================= */
-
+localStorage.setItem(
+"blackcatPrice",
+photoPrice
+);
+
+localStorage.setItem(
+"blackcatReset",
+resetSeconds
+);
 
 refreshHome();
 
+showScreen(
+"home-screen"
+);
+
+}
+
+
+function guestStart(){
+
+currentBlob = null;
+digitalUrl = "";
+
+if(
+boothMode === "public"
+&&
+photoPrice > 0
+){
+
+document
+.getElementById(
+"payment-price"
+)
+.textContent =
+"₱" + photoPrice;
+
+showScreen(
+"payment-screen"
+);
+
+}else{
+
+startCamera();
+
+}
+
+}
+
+
+async function startCamera(){
+
+try{
+
+if(!cameraStream){
+
+cameraStream =
+await navigator
+.mediaDevices
+.getUserMedia({
+
+video:{
+facingMode:"user"
+},
+
+audio:false
+
+});
+
+}
+
+const video =
+document.getElementById(
+"camera"
+);
+
+video.srcObject =
+cameraStream;
+
+await video.play();
+
+showScreen(
+"camera-screen"
+);
+
+}catch(error){
+
+alert(
+"Camera could not be opened."
+);
+
+}
+
+}
+
+
+function startCountdown(){
+
+const countdown =
+document.getElementById(
+"countdown"
+);
+
+const button =
+document.getElementById(
+"capture-button"
+);
+
+button.disabled = true;
+
+countdown.style.display =
+"flex";
+
+let n = 3;
+
+countdown.textContent =
+n;
+
+const timer =
+setInterval(()=>{
+
+n--;
+
+if(n > 0){
+
+countdown.textContent =
+n;
+
+}else{
+
+clearInterval(timer);
+
+countdown.style.display =
+"none";
+
+button.disabled =
+false;
+
+capturePhoto();
+
+}
+
+},1000);
+
+}
+
+
+function capturePhoto(){
+
+const video =
+document.getElementById(
+"camera"
+);
+
+const canvas =
+document.getElementById(
+"photo"
+);
+
+const ctx =
+canvas.getContext(
+"2d"
+);
+
+canvas.width =
+video.videoWidth;
+
+canvas.height =
+video.videoHeight;
+
+ctx.save();
+
+ctx.translate(
+canvas.width,
+0
+);
+
+ctx.scale(
+-1,
+1
+);
+
+ctx.drawImage(
+video,
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+ctx.restore();
+
+const flash =
+document.getElementById(
+"flash"
+);
+
+flash.classList.remove(
+"flash"
+);
+
+void flash.offsetWidth;
+
+flash.classList.add(
+"flash"
+);
+
+setTimeout(()=>{
+
+showScreen(
+"preview-screen"
+);
+
+},300);
+
+}
+
+
+function canvasBlob(canvas){
+
+return new Promise(
+(resolve,reject)=>{
+
+canvas.toBlob(
+blob=>{
+
+if(blob){
+
+resolve(blob);
+
+}else{
+
+reject(
+new Error(
+"Could not prepare photo."
+)
+);
+
+}
+
+},
+"image/jpeg",
+0.92
+);
+
+}
+);
+
+}
+
+
+async function usePhoto(){
+
+const canvas =
+document.getElementById(
+"photo"
+);
+
+const photoData =
+canvas.toDataURL(
+"image/jpeg",
+0.92
+);
+
+document
+.getElementById(
+"receipt-photo"
+)
+.src =
+photoData;
+
+document
+.getElementById(
+"digital-photo"
+)
+.src =
+photoData;
+
+document
+.getElementById(
+"receipt-event"
+)
+.textContent =
+eventName;
+
+document
+.getElementById(
+"receipt-date"
+)
+.textContent =
+currentDate();
+
+showScreen(
+"upload-screen"
+);
+
+try{
+
+currentBlob =
+await canvasBlob(
+canvas
+);
+
+await uploadPhoto();
+
+}catch(error){
+
+showUploadError(
+error
+);
+
+}
+
+}
+
+
+async function uploadPhoto(){
+
+if(!currentBlob){
+
+throw new Error(
+"Photo file missing."
+);
+
+}
+
+const safeEvent =
+eventName
+.toLowerCase()
+.replace(
+/[^a-z0-9]+/g,
+"-"
+)
+.replace(
+/^-|-$/g,
+""
+)
+.slice(
+0,
+35
+)
+||
+"event";
+
+
+const randomId =
+crypto.randomUUID
+?
+crypto.randomUUID()
+:
+Date.now()
++
+"-"
++
+Math.random()
+.toString(36)
+.slice(2);
+
+
+const path =
+safeEvent
++
+"/"
++
+new Date()
+.toISOString()
+.slice(0,10)
++
+"/"
++
+randomId
++
+".jpg";
+
+
+const {error} =
+await sb
+.storage
+.from("photos")
+.upload(
+path,
+currentBlob,
+{
+
+contentType:
+"image/jpeg",
+
+cacheControl:
+"3600",
+
+upsert:
+false
+
+}
+);
+
+
+if(error){
+
+throw error;
+
+}
+
+
+const {data} =
+sb
+.storage
+.from("photos")
+.getPublicUrl(
+path
+);
+
+
+digitalUrl =
+data.publicUrl;
+
+
+showDigital();
+
+}
+
+
+function showDigital(){
+
+const qr =
+document.getElementById(
+"digital-qr"
+);
+
+qr.innerHTML = "";
+
+
+new QRCode(
+qr,
+{
+
+text:
+digitalUrl,
+
+width:
+205,
+
+height:
+205,
+
+correctLevel:
+QRCode.CorrectLevel.M
+
+}
+);
+
+
+showScreen(
+"digital-screen"
+);
+
+}
+
+
+function showUploadError(error){
+
+console.error(error);
+
+document
+.getElementById(
+"upload-error-text"
+)
+.textContent =
+"Upload failed: "
++
+(
+error.message
+||
+"Unknown error"
+);
+
+showScreen(
+"upload-error-screen"
+);
+
+}
+
+
+async function retryUpload(){
+
+showScreen(
+"upload-screen"
+);
+
+try{
+
+await uploadPhoto();
+
+}catch(error){
+
+showUploadError(
+error
+);
+
+}
+
+}
+
+
+function backToDigital(){
+
+if(digitalUrl){
+
+showDigital();
+
+}else{
+
+showScreen(
+"receipt-screen"
+);
+
+}
+
+}
+
+
+function currentDate(){
+
+return new Date()
+.toLocaleDateString(
+"en-PH",
+{
+
+month:"short",
+day:"2-digit",
+year:"numeric"
+
+}
+)
+.toUpperCase();
+
+}
+
+
+function printPhoto(){
+
+createPrintFile();
+
+showScreen(
+"printing-screen"
+);
+
+setTimeout(
+showThankYou,
+2200
+);
+
+}
+
+
+function createPrintFile(){
+
+const source =
+document.getElementById(
+"photo"
+);
+
+const canvas =
+document.getElementById(
+"thermal-output"
+);
+
+const ctx =
+canvas.getContext(
+"2d"
+);
+
+const W = 600;
+const H = 900;
+
+canvas.width = W;
+canvas.height = H;
+
+ctx.fillStyle =
+"#ffffff";
+
+ctx.fillRect(
+0,
+0,
+W,
+H
+);
+
+ctx.fillStyle =
+"#000000";
+
+ctx.textAlign =
+"center";
+
+ctx.font =
+"900 30px Arial";
+
+ctx.fillText(
+"BLACKCAT STUDIOS",
+W/2,
+48
+);
+
+drawLine(
+ctx,
+70,
+W
+);
+
+
+const photoX = 20;
+const photoY = 90;
+const photoW = W - 40;
+const photoH = 600;
+
+drawCoverImage(
+ctx,
+source,
+photoX,
+photoY,
+photoW,
+photoH
+);
+
+grayscaleRegion(
+ctx,
+photoX,
+photoY,
+photoW,
+photoH
+);
+
+drawLine(
+ctx,
+710,
+W
+);
+
+fitText(
+ctx,
+eventName.toUpperCase(),
+W-50,
+28,
+18,
+W/2,
+755
+);
+
+ctx.font =
+"18px Arial";
+
+ctx.fillText(
+currentDate(),
+W/2,
+790
+);
+
+drawLine(
+ctx,
+815,
+W
+);
+
+ctx.font =
+"900 19px Arial";
+
+ctx.fillText(
+"KEEP THIS RECEIPT ♡",
+W/2,
+855
+);
+
+}
+
+
+function drawCoverImage(
+ctx,
+source,
+x,
+y,
+targetW,
+targetH
+){
+
+const sourceRatio =
+source.width
+/
+source.height;
+
+const targetRatio =
+targetW
+/
+targetH;
+
+let sx=0;
+let sy=0;
+let sw=source.width;
+let sh=source.height;
+
+if(
+sourceRatio
+>
+targetRatio
+){
+
+sw =
+source.height
+*
+targetRatio;
+
+sx =
+(
+source.width
+-
+sw
+)
+/2;
+
+}else{
+
+sh =
+source.width
+/
+targetRatio;
+
+sy =
+(
+source.height
+-
+sh
+)
+/2;
+
+}
+
+ctx.drawImage(
+source,
+sx,
+sy,
+sw,
+sh,
+x,
+y,
+targetW,
+targetH
+);
+
+}
+
+
+function grayscaleRegion(
+ctx,
+x,
+y,
+w,
+h
+){
+
+const image =
+ctx.getImageData(
+x,
+y,
+w,
+h
+);
+
+const data =
+image.data;
+
+for(
+let i=0;
+i<data.length;
+i+=4
+){
+
+let gray =
+data[i]*0.299
++
+data[i+1]*0.587
++
+data[i+2]*0.114;
+
+gray =
+Math.max(
+0,
+Math.min(
+255,
+(gray-128)*1.18+128
+)
+);
+
+data[i] =
+gray;
+
+data[i+1] =
+gray;
+
+data[i+2] =
+gray;
+
+}
+
+ctx.putImageData(
+image,
+x,
+y
+);
+
+}
+
+
+function fitText(
+ctx,
+text,
+maxWidth,
+size,
+minSize,
+x,
+y
+){
+
+ctx.font =
+"900 "
++
+size
++
+"px Arial";
+
+while(
+size > minSize
+&&
+ctx.measureText(text).width
+>
+maxWidth
+){
+
+size--;
+
+ctx.font =
+"900 "
++
+size
++
+"px Arial";
+
+}
+
+ctx.fillText(
+text,
+x,
+y
+);
+
+}
+
+
+function drawLine(
+ctx,
+y,
+width
+){
+
+ctx.beginPath();
+
+ctx.moveTo(
+20,
+y
+);
+
+ctx.lineTo(
+width-20,
+y
+);
+
+ctx.stroke();
+
+}
+
+
+function showThankYou(){
+
+showScreen(
+"thank-screen"
+);
+
+let remaining =
+resetSeconds;
+
+const text =
+document.getElementById(
+"reset-text"
+);
+
+text.textContent =
+"Next guest in "
++
+remaining
++
+" seconds...";
+
+const timer =
+setInterval(()=>{
+
+remaining--;
+
+if(
+remaining > 0
+){
+
+text.textContent =
+"Next guest in "
++
+remaining
++
+" seconds...";
+
+}else{
+
+clearInterval(
+timer
+);
+
+}
+
+},1000);
+
+
+setTimeout(()=>{
+
+clearInterval(
+timer
+);
+
+currentBlob = null;
+digitalUrl = "";
+
+refreshHome();
+
+showScreen(
+"home-screen"
+);
+
+},
+resetSeconds*1000
+);
+
+}
+
+
+if(
+"serviceWorker"
+in navigator
+){
+
+window.addEventListener(
+"load",
+()=>{
+
+navigator
+.serviceWorker
+.register(
+"./sw.js?v=14"
+);
+
+}
+);
+
+}
+
+
+refreshHome();
 
 </script>
 
