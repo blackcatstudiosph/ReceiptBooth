@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#f4f0e8">
 <title>BLACKCAT STUDIOS</title>
 
-<link rel="manifest" href="manifest.json?v=14">
-<link rel="apple-touch-icon" href="apple-touch-icon.png?v=14">
+<link rel="manifest" href="manifest.json?v=15">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=15">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -336,29 +336,92 @@ h1{
   to{transform:rotate(360deg)}
 }
 
+#digital-screen{
+  height:100dvh;
+  max-height:100dvh;
+  overflow:hidden;
+  padding:
+    max(12px,env(safe-area-inset-top))
+    22px
+    max(12px,env(safe-area-inset-bottom));
+}
+
+#digital-screen .brand{
+  margin-bottom:10px;
+  font-size:16px;
+  letter-spacing:4px;
+}
+
 .digital-card{
-  width:min(520px,100%);
+  width:min(760px,100%);
+  max-height:calc(100dvh - 58px);
   background:#fff;
-  border-radius:26px;
-  padding:24px;
+  border-radius:28px;
+  padding:20px 22px;
+  box-shadow:0 8px 30px rgba(0,0,0,.07);
+  overflow:hidden;
+}
+
+.digital-kicker{
+  display:inline-block;
+  padding:6px 10px;
+  margin-bottom:6px;
+  border:1px solid #cfcac2;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.4px;
+}
+
+.digital-title{
+  margin:4px 0;
+  font-size:clamp(28px,4vh,38px);
+  font-weight:900;
+  line-height:1;
+}
+
+.digital-subtitle{
+  color:var(--muted);
+  font-size:14px;
+  margin:6px 0 14px;
+}
+
+.digital-layout{
+  display:grid;
+  grid-template-columns:1fr 280px;
+  gap:20px;
+  align-items:center;
+}
+
+.digital-preview-wrap{
+  min-width:0;
 }
 
 .digital-photo{
-  width:min(280px,80%);
-  max-height:280px;
+  display:block;
+  width:100%;
+  height:min(46vh,390px);
   object-fit:cover;
-  border-radius:18px;
-  filter:grayscale(1);
-  margin-bottom:12px;
+  border-radius:20px;
+  margin:0;
+  filter:none;
+  background:#eee;
+}
+
+.digital-scan-panel{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
 }
 
 .digital-qr{
-  width:230px;
-  height:230px;
-  margin:10px auto;
+  width:min(250px,31vh);
+  height:min(250px,31vh);
+  margin:0 auto 10px;
   padding:10px;
   border:1px solid #ddd;
-  border-radius:18px;
+  border-radius:20px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -369,6 +432,30 @@ h1{
 .digital-qr canvas{
   max-width:100%!important;
   max-height:100%!important;
+}
+
+.scan-title{
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:1px;
+  margin-top:2px;
+}
+
+.scan-copy{
+  max-width:245px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.35;
+  margin:5px auto 12px;
+}
+
+.digital-continue{
+  min-width:250px;
+  min-height:48px;
+  padding:11px 20px;
+  margin:0;
+  border-radius:14px;
+  font-size:13px;
 }
 
 .error{
@@ -470,6 +557,31 @@ h1{
   .qrbox{
     width:190px;
     height:190px;
+  }
+
+  #digital-screen{
+    height:auto;
+    max-height:none;
+    overflow-y:auto;
+  }
+
+  .digital-card{
+    max-height:none;
+  }
+
+  .digital-layout{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+
+  .digital-photo{
+    height:auto;
+    max-height:340px;
+  }
+
+  .digital-qr{
+    width:220px;
+    height:220px;
   }
 }
 </style>
@@ -795,38 +907,54 @@ BLACKCAT STUDIOS
 
 <div class="digital-card">
 
-<h1>
-Take It With You
-</h1>
-
-<div class="subtitle">
-Scan the QR to save your digital copy.
+<div class="digital-kicker">
+DIGITAL COPY READY
 </div>
+
+<div class="digital-title">
+Your Digital Copy
+</div>
+
+<div class="digital-subtitle">
+Scan to save your photo.
+</div>
+
+<div class="digital-layout">
+
+<div class="digital-preview-wrap">
 
 <img
 id="digital-photo"
-class="digital-photo">
+class="digital-photo"
+alt="Your BLACKCAT photo">
+
+</div>
+
+<div class="digital-scan-panel">
 
 <div class="digital-qr">
-
 <div id="digital-qr"></div>
-
 </div>
 
-<div class="note">
-Scan with your phone camera.
-Your photo will open in the browser.
+<div class="scan-title">
+SCAN WITH YOUR PHONE
 </div>
 
-<br>
+<div class="scan-copy">
+Open your camera and scan the QR. Your photo will open instantly.
+</div>
 
 <button
-class="primary"
+class="primary digital-continue"
 onclick="showScreen('receipt-screen')">
 
-CONTINUE
+CONTINUE TO PRINT →
 
 </button>
+
+</div>
+
+</div>
 
 </div>
 </section>
@@ -2144,7 +2272,7 @@ window.addEventListener(
 navigator
 .serviceWorker
 .register(
-"./sw.js?v=14"
+"./sw.js?v=15"
 );
 
 }
