@@ -1,0 +1,2 @@
+# ReceiptBooth
+ReceiptBooth App
