@@ -1,450 +1,2268 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ReceiptBooth Prototype 004</title>
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<meta
+    name="theme-color"
+    content="#f4f0e8">
+
+<title>BLACKCAT STUDIOS</title>
+
 
 <style>
-* {
-    box-sizing: border-box;
+
+/* =========================
+   GLOBAL
+========================= */
+
+:root {
+
+    --cream: #f4f0e8;
+    --white: #ffffff;
+    --black: #0b0b0b;
+    --gray: #dedbd5;
+    --light: #ece9e3;
+    --muted: #686868;
+
 }
+
+
+* {
+
+    box-sizing: border-box;
+
+    -webkit-tap-highlight-color:
+        transparent;
+
+}
+
+
+html,
+body {
+
+    margin: 0;
+
+    width: 100%;
+
+    min-height: 100%;
+
+}
+
 
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f7f3ed;
-    color: #222;
-}
 
-.screen {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 30px;
-}
+    background:
+        var(--cream);
 
-.hidden {
-    display: none !important;
-}
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    letter-spacing: 3px;
-    margin-bottom: 35px;
-}
-
-h1 {
-    font-size: 42px;
-    margin: 10px 0;
-}
-
-p {
-    font-size: 20px;
-    color: #666;
-    margin-bottom: 30px;
-}
-
-button {
-    border: none;
-    background: #222;
-    color: white;
-    font-size: 21px;
-    font-weight: bold;
-    padding: 18px 40px;
-    border-radius: 50px;
-    cursor: pointer;
-    margin: 8px;
-}
-
-button:active {
-    transform: scale(0.97);
-}
-
-.secondary {
-    background: #ddd;
-    color: #222;
-}
-
-
-/* CAMERA */
-
-.camera-wrap {
-    position: relative;
-    width: 100%;
-    max-width: 700px;
-}
-
-video,
-#photo {
-    width: 100%;
-    border-radius: 24px;
-    background: #111;
-}
-
-#countdown {
-    position: absolute;
-    inset: 0;
-    display: none;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 130px;
-    font-weight: bold;
-    color: white;
-
-    text-shadow:
-        0 3px 15px rgba(0,0,0,.6);
-}
-
-
-/* FLASH */
-
-#flash {
-    position: fixed;
-    inset: 0;
-    background: white;
-    opacity: 0;
-    pointer-events: none;
-    z-index: 999;
-}
-
-.flash-active {
-    animation: flashEffect .35s ease;
-}
-
-@keyframes flashEffect {
-
-    0% { opacity: 0; }
-
-    40% { opacity: 1; }
-
-    100% { opacity: 0; }
-
-}
-
-
-/* PRETTY RECEIPT PREVIEW */
-
-.receipt-shell {
-    background: #d7d7d7;
-    padding: 30px;
-    border-radius: 20px;
-}
-
-.receipt {
-    width: 302px;
-    background: white;
-    color: black;
-
-    padding: 16px 14px 22px;
+    color:
+        var(--black);
 
     font-family:
-        "Courier New",
-        monospace;
+        Arial,
+        Helvetica,
+        sans-serif;
 
-    text-align: center;
+}
+
+
+button,
+input,
+select {
+
+    font:
+        inherit;
+
+}
+
+
+.hidden {
+
+    display:
+        none !important;
+
+}
+
+
+/* =========================
+   SCREEN
+========================= */
+
+.screen {
+
+    min-height:
+        100dvh;
+
+    width:
+        100%;
+
+    padding:
+        32px 24px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    text-align:
+        center;
+
+}
+
+
+.brand {
+
+    font-size:
+        23px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        5px;
+
+    margin-bottom:
+        30px;
+
+    user-select:
+        none;
+
+    -webkit-user-select:
+        none;
+
+}
+
+
+h1 {
+
+    margin:
+        8px 0;
+
+    font-size:
+        clamp(
+            34px,
+            6vw,
+            52px
+        );
+
+    line-height:
+        1.05;
+
+}
+
+
+.subtitle {
+
+    color:
+        var(--muted);
+
+    font-size:
+        18px;
+
+    margin:
+        10px 0 28px;
+
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.primary,
+.secondary {
+
+    min-width:
+        220px;
+
+    min-height:
+        58px;
+
+    padding:
+        16px 30px;
+
+    margin:
+        7px;
+
+    border:
+        none;
+
+    border-radius:
+        18px;
+
+    font-size:
+        18px;
+
+    font-weight:
+        800;
+
+    cursor:
+        pointer;
+
+}
+
+
+.primary {
+
+    background:
+        var(--black);
+
+    color:
+        white;
+
+}
+
+
+.secondary {
+
+    background:
+        var(--gray);
+
+    color:
+        var(--black);
+
+}
+
+
+.primary:active,
+.secondary:active {
+
+    transform:
+        scale(.98);
+
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+.cat {
+
+    font-size:
+        76px;
+
+    margin-bottom:
+        10px;
+
+}
+
+
+.event-home {
+
+    font-weight:
+        900;
+
+    font-size:
+        17px;
+
+    margin:
+        4px 0 15px;
+
+    text-transform:
+        uppercase;
+
+}
+
+
+.mode-badge {
+
+    display:
+        inline-block;
+
+    padding:
+        8px 14px;
+
+    border:
+        1px solid #aaa;
+
+    border-radius:
+        50px;
+
+    margin-bottom:
+        20px;
+
+    font-size:
+        12px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        1px;
+
+}
+
+
+/* =========================
+   ADMIN
+========================= */
+
+.admin-card {
+
+    width:
+        min(
+            540px,
+            100%
+        );
+
+    background:
+        white;
+
+    padding:
+        28px;
+
+    border-radius:
+        26px;
+
+}
+
+
+.admin-row {
+
+    text-align:
+        left;
+
+    margin:
+        20px 0;
+
+}
+
+
+.admin-row label {
+
+    display:
+        block;
+
+    margin-bottom:
+        8px;
+
+    font-size:
+        13px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        1px;
+
+}
+
+
+.admin-row input,
+.admin-row select {
+
+    width:
+        100%;
+
+    padding:
+        15px;
+
+    border:
+        2px solid #d6d3cd;
+
+    border-radius:
+        14px;
+
+    background:
+        white;
+
+    font-size:
+        18px;
+
+}
+
+
+.admin-note {
+
+    color:
+        var(--muted);
+
+    font-size:
+        13px;
+
+    line-height:
+        1.5;
+
+}
+
+
+/* =========================
+   PAYMENT SCREEN
+========================= */
+
+#payment-screen {
+
+    justify-content:
+        flex-start;
+
+    padding-top:
+        max(
+            35px,
+            env(safe-area-inset-top)
+        );
+
+}
+
+
+.payment-title {
+
+    font-size:
+        clamp(
+            30px,
+            5vw,
+            46px
+        );
+
+    font-weight:
+        900;
+
+    margin:
+        4px 0;
+
+}
+
+
+.payment-card {
+
+    width:
+        min(
+            760px,
+            100%
+        );
+
+    background:
+        white;
+
+    border-radius:
+        26px;
+
+    padding:
+        25px;
+
+    margin:
+        8px 0 18px;
 
     box-shadow:
-        0 5px 20px rgba(0,0,0,.15);
+        0 8px 35px
+        rgba(
+            0,
+            0,
+            0,
+            .07
+        );
+
 }
 
-.receipt-title {
-    font-size: 22px;
-    font-weight: bold;
-    letter-spacing: 2px;
+
+.payment-price-label {
+
+    font-size:
+        13px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        1px;
+
 }
 
-.receipt-subtitle {
-    font-size: 12px;
-    margin-top: 5px;
+
+.price {
+
+    font-size:
+        62px;
+
+    line-height:
+        1;
+
+    font-weight:
+        900;
+
+    margin:
+        12px 0 22px;
+
 }
 
-.divider {
-    border-top:
-        2px dashed black;
 
-    margin: 14px 0;
+.payment-layout {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:
+        24px;
+
+    align-items:
+        center;
+
 }
+
+
+.payment-instructions {
+
+    text-align:
+        left;
+
+    border-right:
+        1px solid #ddd;
+
+    padding-right:
+        20px;
+
+}
+
+
+.payment-step {
+
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    gap:
+        12px;
+
+    margin:
+        17px 0;
+
+    font-size:
+        16px;
+
+    line-height:
+        1.35;
+
+}
+
+
+.step-number {
+
+    flex:
+        0 0 30px;
+
+    width:
+        30px;
+
+    height:
+        30px;
+
+    border-radius:
+        50%;
+
+    background:
+        black;
+
+    color:
+        white;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    font-size:
+        14px;
+
+    font-weight:
+        900;
+
+}
+
+
+.qr-side {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+}
+
+
+.qr-wrapper {
+
+    width:
+        min(
+            310px,
+            100%
+        );
+
+    aspect-ratio:
+        1 / 1;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    background:
+        white;
+
+}
+
+
+#payment-qr {
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    object-fit:
+        contain;
+
+}
+
+
+.qr-error {
+
+    width:
+        100%;
+
+    min-height:
+        220px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border:
+        2px dashed #aaa;
+
+    color:
+        #777;
+
+    padding:
+        20px;
+
+}
+
+
+.payee {
+
+    margin-top:
+        12px;
+
+    font-size:
+        19px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        .5px;
+
+}
+
+
+.bank-detail {
+
+    color:
+        var(--muted);
+
+    margin-top:
+        4px;
+
+    font-size:
+        15px;
+
+}
+
+
+.payment-warning {
+
+    margin:
+        12px auto;
+
+    width:
+        min(
+            620px,
+            100%
+        );
+
+    font-size:
+        13px;
+
+    color:
+        var(--muted);
+
+    line-height:
+        1.5;
+
+}
+
+
+.payment-actions {
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    flex-wrap:
+        wrap;
+
+}
+
+
+.confirm-payment {
+
+    min-width:
+        280px;
+
+}
+
+
+/* =========================
+   CAMERA
+========================= */
+
+#camera-screen {
+
+    padding:
+        0;
+
+    background:
+        black;
+
+    position:
+        relative;
+
+    overflow:
+        hidden;
+
+}
+
+
+.camera-stage {
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    overflow:
+        hidden;
+
+}
+
+
+#camera {
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    object-fit:
+        cover;
+
+    /* MIRROR LIVE SELFIE */
+
+    transform:
+        scaleX(-1);
+
+}
+
+
+.camera-brand {
+
+    position:
+        absolute;
+
+    z-index:
+        5;
+
+    top:
+        max(
+            24px,
+            env(safe-area-inset-top)
+        );
+
+    left:
+        0;
+
+    right:
+        0;
+
+    color:
+        white;
+
+    font-size:
+        18px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        4px;
+
+    text-shadow:
+        0 2px 8px
+        rgba(
+            0,
+            0,
+            0,
+            .5
+        );
+
+}
+
+
+#countdown {
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    z-index:
+        8;
+
+    display:
+        none;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    color:
+        white;
+
+    font-size:
+        160px;
+
+    font-weight:
+        900;
+
+    text-shadow:
+        0 4px 25px
+        rgba(
+            0,
+            0,
+            0,
+            .55
+        );
+
+}
+
+
+.camera-controls {
+
+    position:
+        absolute;
+
+    z-index:
+        10;
+
+    left:
+        0;
+
+    right:
+        0;
+
+    bottom:
+        max(
+            30px,
+            env(safe-area-inset-bottom)
+        );
+
+}
+
+
+.camera-controls
+.primary {
+
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            .85
+        );
+
+    border:
+        2px solid white;
+
+}
+
+
+/* =========================
+   FLASH
+========================= */
+
+#flash {
+
+    position:
+        fixed;
+
+    inset:
+        0;
+
+    z-index:
+        999;
+
+    background:
+        white;
+
+    opacity:
+        0;
+
+    pointer-events:
+        none;
+
+}
+
+
+.flash-active {
+
+    animation:
+        flash .35s ease;
+
+}
+
+
+@keyframes flash {
+
+    0% {
+        opacity: 0;
+    }
+
+    35% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+
+}
+
+
+/* =========================
+   PHOTO REVIEW
+========================= */
+
+#photo {
+
+    display:
+        block;
+
+    width:
+        min(
+            520px,
+            100%
+        );
+
+    max-height:
+        62vh;
+
+    object-fit:
+        contain;
+
+    background:
+        #111;
+
+    border-radius:
+        22px;
+
+    margin:
+        18px 0;
+
+}
+
+
+/* =========================
+   RECEIPT PREVIEW
+========================= */
+
+.receipt-stage {
+
+    background:
+        #d9d6d0;
+
+    padding:
+        24px;
+
+    border-radius:
+        24px;
+
+    margin:
+        15px 0 24px;
+
+}
+
+
+.receipt {
+
+    width:
+        240px;
+
+    height:
+        640px;
+
+    background:
+        white;
+
+    color:
+        black;
+
+    padding:
+        18px 14px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    box-shadow:
+        0 8px 28px
+        rgba(
+            0,
+            0,
+            0,
+            .18
+        );
+
+}
+
+
+.receipt-brand {
+
+    font-weight:
+        900;
+
+    font-size:
+        17px;
+
+    letter-spacing:
+        2px;
+
+    line-height:
+        1.2;
+
+    padding:
+        5px 0 14px;
+
+}
+
+
+.rule {
+
+    height:
+        2px;
+
+    flex:
+        0 0 2px;
+
+    background:
+        black;
+
+    width:
+        100%;
+
+}
+
+
+.receipt-photo {
+
+    flex:
+        1;
+
+    min-height:
+        0;
+
+    margin:
+        12px 0;
+
+    overflow:
+        hidden;
+
+    background:
+        #eee;
+
+}
+
 
 #receipt-photo {
-    width: 100%;
-    display: block;
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    display:
+        block;
+
+    object-fit:
+        cover;
 
     filter:
-        grayscale(100%);
+        grayscale(1)
+        contrast(1.15);
+
 }
 
-.receipt-date {
-    font-size: 13px;
-    line-height: 1.6;
+
+.receipt-details {
+
+    padding:
+        13px 2px;
+
 }
+
+
+#receipt-event {
+
+    font-weight:
+        900;
+
+    font-size:
+        15px;
+
+    line-height:
+        1.2;
+
+    text-transform:
+        uppercase;
+
+}
+
+
+#receipt-date {
+
+    margin-top:
+        6px;
+
+    font-size:
+        12px;
+
+    letter-spacing:
+        1px;
+
+}
+
 
 .receipt-message {
-    font-size: 14px;
-    font-weight: bold;
-    line-height: 1.5;
 
-    margin: 14px 0;
+    padding:
+        15px 0 5px;
+
+    font-size:
+        13px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        .5px;
+
 }
 
-.receipt-footer {
-    font-size: 12px;
-    line-height: 1.5;
+
+/* =========================
+   PRINT OUTPUT
+========================= */
+
+#print-area {
+
+    margin-top:
+        34px;
+
 }
 
 
-/* THERMAL OUTPUT */
+.print-label {
 
-.thermal-container {
-    margin-top: 35px;
+    color:
+        var(--muted);
+
+    font-size:
+        12px;
+
+    margin-bottom:
+        12px;
+
+    letter-spacing:
+        1px;
+
 }
 
-.thermal-label {
-    font-size: 14px;
-    color: #777;
-    margin-bottom: 10px;
-}
 
 #thermal-output {
-    display: block;
 
-    width: 302px;
-    max-width: 100%;
+    display:
+        block;
 
-    background: white;
+    width:
+        240px;
+
+    max-width:
+        100%;
+
+    background:
+        white;
 
     box-shadow:
-        0 5px 20px rgba(0,0,0,.18);
+        0 8px 28px
+        rgba(
+            0,
+            0,
+            0,
+            .18
+        );
+
+    margin:
+        auto;
+
+}
+
+
+/* =========================
+   THANK YOU
+========================= */
+
+.thank-cat {
+
+    font-size:
+        90px;
+
+}
+
+
+.reset-text {
+
+    margin-top:
+        30px;
+
+    color:
+        var(--muted);
+
+    font-size:
+        14px;
+
+}
+
+
+/* =========================
+   TABLET PAYMENT
+========================= */
+
+@media (
+    max-width:
+    700px
+) {
+
+    .payment-layout {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+    .payment-instructions {
+
+        border-right:
+            0;
+
+        border-bottom:
+            1px solid #ddd;
+
+        padding-right:
+            0;
+
+        padding-bottom:
+            16px;
+
+    }
+
+    .price {
+
+        font-size:
+            52px;
+
+    }
+
+    .qr-wrapper {
+
+        width:
+            min(
+                290px,
+                90vw
+            );
+
+    }
+
 }
 
 </style>
+
 </head>
 
 
 <body>
 
+
 <div id="flash"></div>
 
 
-<!-- HOME -->
+
+<!-- =========================
+     HOME
+========================= -->
 
 <section
     id="home-screen"
     class="screen">
 
-    <div class="logo">
-        RECEIPTBOOTH
+
+    <div
+        id="admin-trigger"
+        class="brand">
+
+        BLACKCAT STUDIOS
+
     </div>
 
-    <div style="font-size:80px;">
-        📸
+
+    <div class="cat">
+
+        🐈‍⬛
+
     </div>
+
 
     <h1>
-        Make a Memory
+
+        Live in the Moment.
+
     </h1>
 
-    <p>
-        Take a photo.
-        Print a memory.
-    </p>
 
-    <button onclick="startCamera()">
-        TAP TO START
+    <div class="subtitle">
+
+        Take a photo.
+        Keep the receipt.
+
+    </div>
+
+
+    <div
+        id="home-event"
+        class="event-home">
+
+    </div>
+
+
+    <div
+        id="home-mode"
+        class="mode-badge">
+
+    </div>
+
+
+    <button
+        class="primary"
+        onclick="guestStart()">
+
+        📷 &nbsp; TAP TO START
+
     </button>
+
 
 </section>
 
 
-<!-- CAMERA -->
+
+<!-- =========================
+     PIN
+========================= -->
+
+<section
+    id="pin-screen"
+    class="screen hidden">
+
+
+    <div class="brand">
+
+        BLACKCAT STUDIOS
+
+    </div>
+
+
+    <div class="admin-card">
+
+
+        <h1
+            style="
+            font-size:32px;">
+
+            Admin
+
+        </h1>
+
+
+        <div class="subtitle">
+
+            Enter your PIN.
+
+        </div>
+
+
+        <div class="admin-row">
+
+            <input
+                id="pin-input"
+                type="password"
+                inputmode="numeric"
+                maxlength="4"
+                placeholder="••••">
+
+        </div>
+
+
+        <button
+            class="primary"
+            onclick="checkPin()">
+
+            OPEN ADMIN
+
+        </button>
+
+
+        <button
+            class="secondary"
+            onclick="showScreen(
+                'home-screen'
+            )">
+
+            CANCEL
+
+        </button>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     ADMIN
+========================= -->
+
+<section
+    id="admin-screen"
+    class="screen hidden">
+
+
+    <div class="brand">
+
+        BLACKCAT STUDIOS
+
+    </div>
+
+
+    <div class="admin-card">
+
+
+        <h1
+            style="
+            font-size:30px;">
+
+            Event Settings
+
+        </h1>
+
+
+
+        <div class="admin-row">
+
+
+            <label>
+
+                EVENT NAME
+
+            </label>
+
+
+            <input
+                id="admin-event"
+                type="text"
+                maxlength="32"
+                placeholder="Event Name">
+
+
+        </div>
+
+
+
+        <div class="admin-row">
+
+
+            <label>
+
+                BOOTH MODE
+
+            </label>
+
+
+            <select
+                id="admin-mode">
+
+
+                <option
+                    value="private">
+
+                    Private Event —
+                    No Payment
+
+                </option>
+
+
+                <option
+                    value="public">
+
+                    Pay Per Use
+
+                </option>
+
+
+            </select>
+
+
+        </div>
+
+
+
+        <div class="admin-row">
+
+
+            <label>
+
+                PRICE PER PHOTO
+
+            </label>
+
+
+            <input
+                id="admin-price"
+                type="number"
+                min="0"
+                step="1"
+                placeholder="100">
+
+
+        </div>
+
+
+
+        <div class="admin-row">
+
+
+            <label>
+
+                AUTO RESET
+
+            </label>
+
+
+            <select
+                id="admin-reset">
+
+
+                <option value="5">
+
+                    5 seconds
+
+                </option>
+
+
+                <option value="8">
+
+                    8 seconds
+
+                </option>
+
+
+                <option value="10">
+
+                    10 seconds
+
+                </option>
+
+
+                <option value="15">
+
+                    15 seconds
+
+                </option>
+
+
+            </select>
+
+
+        </div>
+
+
+
+        <div class="admin-note">
+
+            PRIVATE EVENT skips
+            the payment screen.
+
+            <br><br>
+
+            PAY PER USE displays
+            your MariBank QR before
+            opening the camera.
+
+        </div>
+
+
+        <br>
+
+
+        <button
+            class="primary"
+            onclick="saveAdmin()">
+
+            SAVE SETTINGS
+
+        </button>
+
+
+        <button
+            class="secondary"
+            onclick="showScreen(
+                'home-screen'
+            )">
+
+            CANCEL
+
+        </button>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     PAYMENT
+========================= -->
+
+<section
+    id="payment-screen"
+    class="screen hidden">
+
+
+    <div class="brand">
+
+        BLACKCAT STUDIOS
+
+    </div>
+
+
+    <div class="payment-title">
+
+        Ready for Your Photo?
+
+    </div>
+
+
+    <div class="subtitle">
+
+        Please pay to continue.
+
+    </div>
+
+
+    <div class="payment-card">
+
+
+        <div class="payment-layout">
+
+
+
+            <!-- LEFT SIDE -->
+
+
+            <div
+                class="payment-instructions">
+
+
+                <div
+                    class="payment-price-label">
+
+                    PHOTO SESSION
+
+                </div>
+
+
+                <div
+                    id="payment-price"
+                    class="price">
+
+                    ₱100
+
+                </div>
+
+
+
+                <div class="payment-step">
+
+
+                    <div
+                        class="step-number">
+
+                        1
+
+                    </div>
+
+
+                    <div>
+
+                        Open your
+                        banking app
+                        or e-wallet.
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="payment-step">
+
+
+                    <div
+                        class="step-number">
+
+                        2
+
+                    </div>
+
+
+                    <div>
+
+                        Scan the QR
+                        code to pay.
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="payment-step">
+
+
+                    <div
+                        class="step-number">
+
+                        3
+
+                    </div>
+
+
+                    <div>
+
+                        Once payment
+                        is confirmed,
+                        tap
+                        <strong>
+                        CONFIRMED PAYMENT
+                        </strong>.
+
+                    </div>
+
+
+                </div>
+
+
+                <div
+                    class="payment-warning">
+
+                    🔒 Complete your
+                    payment before
+                    proceeding to
+                    the camera.
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- RIGHT SIDE -->
+
+
+            <div class="qr-side">
+
+
+                <div class="qr-wrapper">
+
+
+                    <img
+                        id="payment-qr"
+                        src="qr-code.png"
+                        alt="BLACKCAT STUDIOS payment QR"
+                        onerror="qrFailed()">
+
+
+
+                    <div
+                        id="qr-error"
+                        class="
+                        qr-error
+                        hidden">
+
+                        QR image not found.
+
+                        <br><br>
+
+                        Make sure
+                        qr-code.png
+                        is uploaded
+                        beside
+                        index.html.
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="payee">
+
+                    BLACKCAT STUDIOS
+
+                </div>
+
+
+                <div class="bank-detail">
+
+                    MariBank • InstaPay
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <div
+        class="payment-warning">
+
+        Your bank or e-wallet
+        may charge transfer fees.
+
+        <br>
+
+        Payment verification is
+        manual in Prototype 009.
+
+    </div>
+
+
+
+    <div class="payment-actions">
+
+
+        <button
+            class="secondary"
+            onclick="
+            cancelPayment()">
+
+            CANCEL
+
+        </button>
+
+
+        <button
+            class="
+            primary
+            confirm-payment"
+            onclick="
+            confirmedPayment()">
+
+            ✓ CONFIRMED PAYMENT
+
+        </button>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     CAMERA
+========================= -->
 
 <section
     id="camera-screen"
     class="screen hidden">
 
-    <div class="logo">
-        RECEIPTBOOTH
-    </div>
 
-    <div class="camera-wrap">
+    <div class="camera-stage">
+
 
         <video
             id="camera"
             autoplay
-            playsinline>
+            playsinline
+            muted>
+
         </video>
 
-        <div id="countdown">
-            3
-        </div>
 
     </div>
 
-    <button
-        id="capture-button"
-        onclick="startCountdown()">
 
-        📸 TAKE PHOTO
+    <div class="camera-brand">
 
-    </button>
+        BLACKCAT STUDIOS
+
+    </div>
+
+
+    <div id="countdown">
+
+        3
+
+    </div>
+
+
+    <div class="camera-controls">
+
+
+        <button
+            id="capture-button"
+            class="primary"
+            onclick="
+            startCountdown()">
+
+            📷 &nbsp;
+            TAKE PHOTO
+
+        </button>
+
+
+    </div>
+
 
 </section>
 
 
-<!-- PHOTO PREVIEW -->
+
+<!-- =========================
+     PHOTO REVIEW
+========================= -->
 
 <section
     id="preview-screen"
     class="screen hidden">
 
-    <div class="logo">
-        RECEIPTBOOTH
+
+    <div class="brand">
+
+        BLACKCAT STUDIOS
+
     </div>
 
+
     <h1>
+
         Your Photo
+
     </h1>
 
-    <p>
-        Love it?
-    </p>
 
-    <canvas id="photo"></canvas>
+    <div class="subtitle">
+
+        Love it?
+
+    </div>
+
+
+    <canvas
+        id="photo">
+
+    </canvas>
+
 
     <div>
 
+
         <button
             class="secondary"
-            onclick="retakePhoto()">
+            onclick="
+            retakePhoto()">
 
             RETAKE
 
         </button>
 
-        <button onclick="usePhoto()">
 
-            USE THIS PHOTO
+        <button
+            class="primary"
+            onclick="
+            usePhoto()">
+
+            YES, KEEP IT
 
         </button>
 
+
     </div>
+
 
 </section>
 
 
-<!-- RECEIPT -->
+
+<!-- =========================
+     RECEIPT
+========================= -->
 
 <section
     id="receipt-screen"
     class="screen hidden">
 
-    <div class="logo">
-        RECEIPTBOOTH
+
+    <div class="brand">
+
+        BLACKCAT STUDIOS
+
     </div>
 
+
     <h1>
-        Your Memory Receipt
+
+        Your Photo Receipt
+
     </h1>
 
-    <p>
-        This is how your memory
-        will look.
-    </p>
+
+    <div class="subtitle">
+
+        Here's your
+        little memory.
+
+    </div>
 
 
-    <div class="receipt-shell">
+
+    <div class="receipt-stage">
+
 
         <div class="receipt">
 
-            <div class="receipt-title">
-                RECEIPTBOOTH
-            </div>
-
-            <div class="receipt-subtitle">
-                PHOTO MEMORY
-            </div>
-
-            <div class="divider"></div>
 
 
-            <img
-                id="receipt-photo"
-                alt="Captured photo">
+            <div
+                class="receipt-brand">
 
-
-            <div class="divider"></div>
-
-
-            <div class="receipt-date">
-
-                <div id="receipt-date"></div>
-
-                <div id="receipt-time"></div>
+                BLACKCAT
+                <br>
+                STUDIOS
 
             </div>
 
 
-            <div class="divider"></div>
-
-
-            <div class="receipt-message">
-
-                MAKE A MEMORY.<br>
-                KEEP THE RECEIPT.
+            <div
+                class="rule">
 
             </div>
 
 
-            <div class="divider"></div>
+
+            <div
+                class="receipt-photo">
 
 
-            <div class="receipt-footer">
+                <img
+                    id="receipt-photo"
+                    alt="Captured photo">
 
-                #RECEIPTBOOTH<br>
-                THANK YOU ♡
 
             </div>
+
+
+
+            <div
+                class="rule">
+
+            </div>
+
+
+
+            <div
+                class="receipt-details">
+
+
+                <div
+                    id="receipt-event">
+
+                    YOUR EVENT
+
+                </div>
+
+
+                <div
+                    id="receipt-date">
+
+                </div>
+
+
+            </div>
+
+
+
+            <div
+                class="rule">
+
+            </div>
+
+
+
+            <div
+                class="receipt-message">
+
+                KEEP THIS
+                RECEIPT ♡
+
+            </div>
+
 
         </div>
+
 
     </div>
 
 
-    <div style="margin-top:25px;">
+
+    <div>
+
 
         <button
             class="secondary"
-            onclick="backToPhoto()">
+            onclick="
+            backToPhoto()">
 
             BACK
 
         </button>
 
-        <button onclick="generateThermalReceipt()">
 
-            🧾 CREATE PRINT FILE
+        <button
+            class="primary"
+            onclick="
+            createPrintFile()">
+
+            🖨️ &nbsp;
+            PRINT PHOTO
 
         </button>
+
 
     </div>
 
 
-    <!-- TECHNICAL PRINT PREVIEW -->
 
     <div
-        id="thermal-container"
-        class="thermal-container hidden">
+        id="print-area"
+        class="hidden">
 
-        <div class="thermal-label">
-            80MM THERMAL OUTPUT • 576PX
+
+        <div
+            class="print-label">
+
+            PRINT OUTPUT •
+            30 × 80MM •
+            PORTRAIT
+
         </div>
 
-        <canvas id="thermal-output"></canvas>
+
+        <canvas
+            id="thermal-output">
+
+        </canvas>
+
+
+        <br>
+
+
+        <button
+            class="primary"
+            onclick="
+            completePrint()">
+
+            DONE
+
+        </button>
+
 
     </div>
 
@@ -452,35 +2270,734 @@ video,
 </section>
 
 
+
+<!-- =========================
+     THANK YOU
+========================= -->
+
+<section
+    id="thank-screen"
+    class="screen hidden">
+
+
+    <div class="brand">
+
+        BLACKCAT STUDIOS
+
+    </div>
+
+
+    <div class="thank-cat">
+
+        🐈‍⬛
+
+    </div>
+
+
+    <h1>
+
+        Thank You!
+
+    </h1>
+
+
+    <div class="subtitle">
+
+        Keep this receipt.
+
+        <br>
+
+        Keep the moment. ♡
+
+    </div>
+
+
+    <div
+        id="reset-text"
+        class="reset-text">
+
+        Getting ready for
+        the next guest...
+
+    </div>
+
+
+</section>
+
+
+
 <script>
 
-let cameraStream = null;
+
+/* =========================
+   SETTINGS
+========================= */
 
 
-/* ================================
+const DEFAULT_PIN =
+    "1234";
+
+
+let eventName =
+    localStorage.getItem(
+        "blackcatEvent"
+    )
+    || "YOUR EVENT";
+
+
+let boothMode =
+    localStorage.getItem(
+        "blackcatMode"
+    )
+    || "private";
+
+
+let photoPrice =
+    Number(
+        localStorage.getItem(
+            "blackcatPrice"
+        )
+        || 100
+    );
+
+
+let resetSeconds =
+    Number(
+        localStorage.getItem(
+            "blackcatReset"
+        )
+        || 8
+    );
+
+
+let cameraStream =
+    null;
+
+
+let adminHoldTimer =
+    null;
+
+
+let resetTimer =
+    null;
+
+
+
+/* =========================
+   SCREEN HELPER
+========================= */
+
+
+function showScreen(id) {
+
+
+    document
+        .querySelectorAll(
+            ".screen"
+        )
+        .forEach(
+            function(screen) {
+
+                screen
+                    .classList
+                    .add(
+                        "hidden"
+                    );
+
+            }
+        );
+
+
+    document
+        .getElementById(id)
+        .classList
+        .remove(
+            "hidden"
+        );
+
+
+    window.scrollTo(
+        0,
+        0
+    );
+
+}
+
+
+
+/* =========================
+   HOME
+========================= */
+
+
+function refreshHome() {
+
+
+    document
+        .getElementById(
+            "home-event"
+        )
+        .textContent =
+        eventName;
+
+
+    document
+        .getElementById(
+            "home-mode"
+        )
+        .textContent =
+
+        boothMode ===
+        "private"
+
+        ?
+
+        "PRIVATE EVENT"
+
+        :
+
+        "PAY PER USE";
+
+}
+
+
+
+/* =========================
+   ADMIN LONG PRESS
+========================= */
+
+
+const adminTrigger =
+
+    document
+    .getElementById(
+        "admin-trigger"
+    );
+
+
+function startAdminHold(
+    event
+) {
+
+
+    event.preventDefault();
+
+
+    clearTimeout(
+        adminHoldTimer
+    );
+
+
+    adminHoldTimer =
+        setTimeout(
+            function() {
+
+
+                document
+                    .getElementById(
+                        "pin-input"
+                    )
+                    .value =
+                    "";
+
+
+                showScreen(
+                    "pin-screen"
+                );
+
+
+            },
+
+            2500
+
+        );
+
+}
+
+
+function cancelAdminHold() {
+
+
+    clearTimeout(
+        adminHoldTimer
+    );
+
+}
+
+
+adminTrigger
+    .addEventListener(
+
+        "touchstart",
+
+        startAdminHold,
+
+        {
+            passive:
+                false
+        }
+
+    );
+
+
+adminTrigger
+    .addEventListener(
+
+        "touchend",
+
+        cancelAdminHold
+
+    );
+
+
+adminTrigger
+    .addEventListener(
+
+        "touchcancel",
+
+        cancelAdminHold
+
+    );
+
+
+adminTrigger
+    .addEventListener(
+
+        "mousedown",
+
+        startAdminHold
+
+    );
+
+
+adminTrigger
+    .addEventListener(
+
+        "mouseup",
+
+        cancelAdminHold
+
+    );
+
+
+adminTrigger
+    .addEventListener(
+
+        "mouseleave",
+
+        cancelAdminHold
+
+    );
+
+
+
+/* =========================
+   PIN
+========================= */
+
+
+function checkPin() {
+
+
+    const pin =
+
+        document
+        .getElementById(
+            "pin-input"
+        )
+        .value;
+
+
+    if(
+        pin ===
+        DEFAULT_PIN
+    ) {
+
+
+        openAdmin();
+
+
+    }
+
+
+    else {
+
+
+        alert(
+            "Incorrect PIN."
+        );
+
+
+        document
+            .getElementById(
+                "pin-input"
+            )
+            .value =
+            "";
+
+    }
+
+}
+
+
+
+/* =========================
+   ADMIN
+========================= */
+
+
+function openAdmin() {
+
+
+    document
+        .getElementById(
+            "admin-event"
+        )
+        .value =
+
+        eventName ===
+        "YOUR EVENT"
+
+        ?
+
+        ""
+
+        :
+
+        eventName;
+
+
+    document
+        .getElementById(
+            "admin-mode"
+        )
+        .value =
+        boothMode;
+
+
+    document
+        .getElementById(
+            "admin-price"
+        )
+        .value =
+        photoPrice;
+
+
+    document
+        .getElementById(
+            "admin-reset"
+        )
+        .value =
+        String(
+            resetSeconds
+        );
+
+
+    showScreen(
+        "admin-screen"
+    );
+
+}
+
+
+
+function saveAdmin() {
+
+
+    const newEvent =
+
+        document
+        .getElementById(
+            "admin-event"
+        )
+        .value
+        .trim();
+
+
+    eventName =
+
+        newEvent
+
+        ||
+
+        "YOUR EVENT";
+
+
+    boothMode =
+
+        document
+        .getElementById(
+            "admin-mode"
+        )
+        .value;
+
+
+    photoPrice =
+
+        Number(
+
+            document
+            .getElementById(
+                "admin-price"
+            )
+            .value
+
+        );
+
+
+    if(
+
+        !Number.isFinite(
+            photoPrice
+        )
+
+        ||
+
+        photoPrice < 0
+
+    ) {
+
+        photoPrice =
+            0;
+
+    }
+
+
+    resetSeconds =
+
+        Number(
+
+            document
+            .getElementById(
+                "admin-reset"
+            )
+            .value
+
+        );
+
+
+    localStorage.setItem(
+
+        "blackcatEvent",
+
+        eventName
+
+    );
+
+
+    localStorage.setItem(
+
+        "blackcatMode",
+
+        boothMode
+
+    );
+
+
+    localStorage.setItem(
+
+        "blackcatPrice",
+
+        String(
+            photoPrice
+        )
+
+    );
+
+
+    localStorage.setItem(
+
+        "blackcatReset",
+
+        String(
+            resetSeconds
+        )
+
+    );
+
+
+    refreshHome();
+
+
+    showScreen(
+        "home-screen"
+    );
+
+}
+
+
+
+/* =========================
+   GUEST START
+========================= */
+
+
+function guestStart() {
+
+
+    if(
+
+        boothMode ===
+        "public"
+
+        &&
+
+        photoPrice > 0
+
+    ) {
+
+
+        document
+            .getElementById(
+                "payment-price"
+            )
+            .textContent =
+
+            "₱"
+            +
+            photoPrice;
+
+
+        showScreen(
+            "payment-screen"
+        );
+
+
+    }
+
+
+    else {
+
+
+        startCamera();
+
+
+    }
+
+}
+
+
+
+/* =========================
+   QR FALLBACK
+========================= */
+
+
+function qrFailed() {
+
+
+    document
+        .getElementById(
+            "payment-qr"
+        )
+        .classList
+        .add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "qr-error"
+        )
+        .classList
+        .remove(
+            "hidden"
+        );
+
+}
+
+
+
+/* =========================
+   CANCEL PAYMENT
+========================= */
+
+
+function cancelPayment() {
+
+
+    refreshHome();
+
+
+    showScreen(
+        "home-screen"
+    );
+
+}
+
+
+
+/* =========================
+   MANUAL PAYMENT CONFIRM
+========================= */
+
+
+function confirmedPayment() {
+
+
+    /*
+       PROTOTYPE 009
+
+       This is currently
+       MANUAL confirmation.
+
+       Future version:
+       bank/payment-provider
+       webhook confirmation.
+    */
+
+
+    startCamera();
+
+}
+
+
+
+/* =========================
    CAMERA
-================================ */
+========================= */
 
 
 async function startCamera() {
 
+
     try {
 
-        cameraStream =
-            await navigator.mediaDevices
-            .getUserMedia({
 
-                video: {
-                    facingMode: "user"
-                },
+        if(
+            !cameraStream
+        ) {
 
-                audio: false
 
-            });
+            cameraStream =
+
+                await navigator
+                .mediaDevices
+                .getUserMedia({
+
+
+                    video: {
+
+                        facingMode:
+                            "user"
+
+                    },
+
+
+                    audio:
+                        false
+
+
+                });
+
+        }
 
 
         const camera =
-            document.getElementById(
+
+            document
+            .getElementById(
                 "camera"
             );
 
@@ -489,30 +3006,33 @@ async function startCamera() {
             cameraStream;
 
 
-        document
-            .getElementById(
-                "home-screen"
-            )
-            .classList
-            .add("hidden");
+        await camera.play();
 
 
-        document
-            .getElementById(
-                "camera-screen"
-            )
-            .classList
-            .remove("hidden");
+        showScreen(
+            "camera-screen"
+        );
+
 
     }
 
-    catch (error) {
 
-        console.error(error);
+    catch(error) {
+
+
+        console.error(
+            error
+        );
+
 
         alert(
-            "Camera could not be opened. " +
+
+            "Camera could not be opened. "
+
+            +
+
             "Please allow camera access."
+
         );
 
     }
@@ -520,121 +3040,170 @@ async function startCamera() {
 }
 
 
-/* ================================
+
+/* =========================
    COUNTDOWN
-================================ */
+========================= */
 
 
 function startCountdown() {
 
+
     const countdown =
-        document.getElementById(
+
+        document
+        .getElementById(
             "countdown"
         );
 
 
     const button =
-        document.getElementById(
+
+        document
+        .getElementById(
             "capture-button"
         );
 
 
-    button.disabled = true;
+    button.disabled =
+        true;
+
 
     countdown.style.display =
         "flex";
 
 
-    let number = 3;
+    let number =
+        3;
 
-    countdown.innerText =
+
+    countdown.textContent =
         number;
 
 
     const timer =
-        setInterval(function() {
 
-            number--;
+        setInterval(
+            function() {
 
 
-            if (number > 0) {
+                number--;
 
-                countdown.innerText =
-                    number;
 
-            }
+                if(
+                    number > 0
+                ) {
 
-            else {
 
-                clearInterval(timer);
+                    countdown.textContent =
+                        number;
 
-                countdown.style.display =
-                    "none";
 
-                button.disabled =
-                    false;
+                }
 
-                capturePhoto();
 
-            }
+                else {
 
-        }, 1000);
+
+                    clearInterval(
+                        timer
+                    );
+
+
+                    countdown.style.display =
+                        "none";
+
+
+                    button.disabled =
+                        false;
+
+
+                    capturePhoto();
+
+                }
+
+
+            },
+
+            1000
+
+        );
 
 }
 
 
-/* ================================
+
+/* =========================
    CAPTURE
-================================ */
+========================= */
 
 
 function capturePhoto() {
 
-    const camera =
-        document.getElementById(
+
+    const video =
+
+        document
+        .getElementById(
             "camera"
         );
 
 
     const canvas =
-        document.getElementById(
+
+        document
+        .getElementById(
             "photo"
         );
 
 
     const ctx =
-        canvas.getContext("2d");
+
+        canvas
+        .getContext(
+            "2d"
+        );
 
 
     canvas.width =
-        camera.videoWidth;
+        video.videoWidth;
+
 
     canvas.height =
-        camera.videoHeight;
+        video.videoHeight;
+
+
+
+    /*
+       MIRROR CAPTURE
+       TO MATCH LIVE VIEW
+    */
 
 
     ctx.save();
 
 
-    /*
-       Mirror the captured selfie
-       so it matches the preview.
-    */
-
     ctx.translate(
+
         canvas.width,
+
         0
+
     );
 
+
     ctx.scale(
+
         -1,
+
         1
+
     );
 
 
     ctx.drawImage(
 
-        camera,
+        video,
 
         0,
         0,
@@ -651,98 +3220,103 @@ function capturePhoto() {
     flashScreen();
 
 
-    setTimeout(function() {
-
-        document
-            .getElementById(
-                "camera-screen"
-            )
-            .classList
-            .add("hidden");
+    setTimeout(
+        function() {
 
 
-        document
-            .getElementById(
+            showScreen(
                 "preview-screen"
-            )
-            .classList
-            .remove("hidden");
+            );
 
-    }, 350);
+
+        },
+
+        300
+
+    );
 
 }
 
 
-/* ================================
+
+/* =========================
    FLASH
-================================ */
+========================= */
 
 
 function flashScreen() {
 
+
     const flash =
-        document.getElementById(
+
+        document
+        .getElementById(
             "flash"
         );
 
 
-    flash.classList.remove(
-        "flash-active"
-    );
+    flash
+        .classList
+        .remove(
+            "flash-active"
+        );
 
 
-    void flash.offsetWidth;
+    void
+    flash.offsetWidth;
 
 
-    flash.classList.add(
-        "flash-active"
-    );
+    flash
+        .classList
+        .add(
+            "flash-active"
+        );
 
 }
 
 
-/* ================================
+
+/* =========================
    RETAKE
-================================ */
+========================= */
 
 
 function retakePhoto() {
 
-    document
-        .getElementById(
-            "preview-screen"
-        )
-        .classList
-        .add("hidden");
 
-
-    document
-        .getElementById(
-            "camera-screen"
-        )
-        .classList
-        .remove("hidden");
+    showScreen(
+        "camera-screen"
+    );
 
 }
 
 
-/* ================================
+
+/* =========================
    USE PHOTO
-================================ */
+========================= */
 
 
 function usePhoto() {
 
+
     const canvas =
-        document.getElementById(
+
+        document
+        .getElementById(
             "photo"
         );
 
 
-    const imageData =
-        canvas.toDataURL(
+    const image =
+
+        canvas
+        .toDataURL(
+
             "image/jpeg",
-            0.92
+
+            .94
+
         );
 
 
@@ -751,558 +3325,787 @@ function usePhoto() {
             "receipt-photo"
         )
         .src =
-        imageData;
+        image;
 
 
-    const now =
-        new Date();
-
-
-    const dateText =
-        now.toLocaleDateString(
-
-            "en-PH",
-
-            {
-                year: "numeric",
-                month: "long",
-                day: "numeric"
-            }
-
-        );
-
-
-    const timeText =
-        now.toLocaleTimeString(
-
-            "en-PH",
-
-            {
-                hour: "2-digit",
-                minute: "2-digit"
-            }
-
-        );
+    document
+        .getElementById(
+            "receipt-event"
+        )
+        .textContent =
+        eventName;
 
 
     document
         .getElementById(
             "receipt-date"
         )
-        .innerText =
-        dateText.toUpperCase();
+        .textContent =
+        currentDate();
 
 
     document
         .getElementById(
-            "receipt-time"
-        )
-        .innerText =
-        timeText;
-
-
-    document
-        .getElementById(
-            "preview-screen"
+            "print-area"
         )
         .classList
-        .add("hidden");
+        .add(
+            "hidden"
+        );
 
 
-    document
-        .getElementById(
-            "receipt-screen"
-        )
-        .classList
-        .remove("hidden");
+    showScreen(
+        "receipt-screen"
+    );
 
 }
 
 
-/* ================================
+
+/* =========================
+   DATE
+========================= */
+
+
+function currentDate() {
+
+
+    return new Date()
+        .toLocaleDateString(
+
+            "en-PH",
+
+            {
+
+                month:
+                    "short",
+
+                day:
+                    "2-digit",
+
+                year:
+                    "numeric"
+
+            }
+
+        )
+        .toUpperCase();
+
+}
+
+
+
+/* =========================
    BACK
-================================ */
+========================= */
 
 
 function backToPhoto() {
 
-    document
-        .getElementById(
-            "thermal-container"
-        )
-        .classList
-        .add("hidden");
-
 
     document
         .getElementById(
-            "receipt-screen"
+            "print-area"
         )
         .classList
-        .add("hidden");
+        .add(
+            "hidden"
+        );
 
 
-    document
-        .getElementById(
-            "preview-screen"
-        )
-        .classList
-        .remove("hidden");
+    showScreen(
+        "preview-screen"
+    );
 
 }
 
 
-/* ================================
-   THERMAL RECEIPT GENERATOR
-================================ */
+
+/* =========================
+   CREATE PRINT FILE
+========================= */
 
 
-function generateThermalReceipt() {
+function createPrintFile() {
+
 
     const source =
-        document.getElementById(
+
+        document
+        .getElementById(
             "photo"
         );
 
 
-    const output =
-        document.getElementById(
+    const canvas =
+
+        document
+        .getElementById(
             "thermal-output"
         );
 
 
     const ctx =
-        output.getContext("2d");
+
+        canvas
+        .getContext(
+            "2d"
+        );
 
 
     /*
-       Prototype target:
+       PHYSICAL TARGET:
+       30 × 80MM PORTRAIT
 
-       576 pixels wide.
-
-       This gives us a realistic
-       working canvas for many
-       80mm / 203dpi printers.
-
-       We'll verify the exact
-       VOZY G80 specification
-       before physical printing.
+       Printer dot dimensions
+       will be calibrated
+       when printer arrives.
     */
 
-    const WIDTH = 576;
 
-    const MARGIN = 30;
-
-    const PHOTO_WIDTH =
-        WIDTH - (MARGIN * 2);
-
-    const PHOTO_HEIGHT =
-        PHOTO_WIDTH;
+    const W =
+        300;
 
 
-    /*
-       Receipt height.
-    */
-
-    const HEIGHT = 950;
+    const H =
+        800;
 
 
-    output.width =
-        WIDTH;
-
-    output.height =
-        HEIGHT;
+    canvas.width =
+        W;
 
 
-    /*
-       White paper.
-    */
+    canvas.height =
+        H;
+
+
+
+    /* PAPER */
+
 
     ctx.fillStyle =
-        "#FFFFFF";
+        "#fff";
+
 
     ctx.fillRect(
+
         0,
         0,
-        WIDTH,
-        HEIGHT
+
+        W,
+        H
+
     );
 
 
     ctx.fillStyle =
-        "#000000";
+        "#000";
+
 
     ctx.textAlign =
         "center";
 
 
-    /* TITLE */
 
-    ctx.font =
-        "bold 36px Arial";
-
-    ctx.fillText(
-        "RECEIPTBOOTH",
-        WIDTH / 2,
-        55
-    );
+    /* BRAND */
 
 
     ctx.font =
-        "20px Arial";
+        "900 22px Arial";
+
 
     ctx.fillText(
-        "PHOTO MEMORY",
-        WIDTH / 2,
-        88
+
+        "BLACKCAT",
+
+        W / 2,
+
+        34
+
     );
 
 
-    drawDivider(
+    ctx.fillText(
+
+        "STUDIOS",
+
+        W / 2,
+
+        61
+
+    );
+
+
+    line(
+
         ctx,
-        120,
-        WIDTH,
-        MARGIN
+
+        82,
+
+        W
+
     );
+
 
 
     /* PHOTO */
 
-    const sourceWidth =
-        source.width;
 
-    const sourceHeight =
-        source.height;
+    const x =
+        12;
 
 
-    const cropSize =
-        Math.min(
-            sourceWidth,
-            sourceHeight
+    const y =
+        98;
+
+
+    const photoW =
+        W - 24;
+
+
+    const photoH =
+        480;
+
+
+    drawCoverImage(
+
+        ctx,
+
+        source,
+
+        x,
+        y,
+
+        photoW,
+        photoH
+
+    );
+
+
+    grayscaleRegion(
+
+        ctx,
+
+        x,
+        y,
+
+        photoW,
+        photoH
+
+    );
+
+
+    line(
+
+        ctx,
+
+        594,
+
+        W
+
+    );
+
+
+
+    /* EVENT */
+
+
+    ctx.font =
+        "900 18px Arial";
+
+
+    fitText(
+
+        ctx,
+
+        eventName
+        .toUpperCase(),
+
+        W - 30,
+
+        18,
+        13,
+
+        W / 2,
+
+        632
+
+    );
+
+
+
+    /* DATE */
+
+
+    ctx.font =
+        "15px Arial";
+
+
+    ctx.fillText(
+
+        currentDate(),
+
+        W / 2,
+
+        660
+
+    );
+
+
+    line(
+
+        ctx,
+
+        686,
+
+        W
+
+    );
+
+
+
+    /* MESSAGE */
+
+
+    ctx.font =
+        "900 16px Arial";
+
+
+    ctx.fillText(
+
+        "KEEP THIS RECEIPT ♡",
+
+        W / 2,
+
+        735
+
+    );
+
+
+
+    /* SHOW OUTPUT */
+
+
+    document
+        .getElementById(
+            "print-area"
+        )
+        .classList
+        .remove(
+            "hidden"
         );
 
 
-    const cropX =
-        (
-            sourceWidth -
-            cropSize
-        ) / 2;
+    setTimeout(
+        function() {
 
 
-    const cropY =
-        (
-            sourceHeight -
-            cropSize
-        ) / 2;
+            document
+                .getElementById(
+                    "print-area"
+                )
+                .scrollIntoView({
+
+                    behavior:
+                        "smooth",
+
+                    block:
+                        "start"
+
+                });
 
 
-    const photoY =
-        145;
+        },
+
+        50
+
+    );
+
+}
+
+
+
+/* =========================
+   COVER CROP
+========================= */
+
+
+function drawCoverImage(
+
+    ctx,
+
+    source,
+
+    x,
+    y,
+
+    targetW,
+    targetH
+
+) {
+
+
+    const sourceW =
+        source.width;
+
+
+    const sourceH =
+        source.height;
+
+
+    const sourceRatio =
+
+        sourceW
+        /
+        sourceH;
+
+
+    const targetRatio =
+
+        targetW
+        /
+        targetH;
+
+
+    let sx =
+        0;
+
+
+    let sy =
+        0;
+
+
+    let sw =
+        sourceW;
+
+
+    let sh =
+        sourceH;
+
+
+
+    if(
+
+        sourceRatio
+        >
+        targetRatio
+
+    ) {
+
+
+        sw =
+
+            sourceH
+            *
+            targetRatio;
+
+
+        sx =
+
+            (
+                sourceW
+                -
+                sw
+            )
+
+            /
+            2;
+
+
+    }
+
+
+    else {
+
+
+        sh =
+
+            sourceW
+            /
+            targetRatio;
+
+
+        sy =
+
+            (
+                sourceH
+                -
+                sh
+            )
+
+            /
+            2;
+
+
+    }
 
 
     ctx.drawImage(
 
         source,
 
-        cropX,
-        cropY,
+        sx,
+        sy,
 
-        cropSize,
-        cropSize,
+        sw,
+        sh,
 
-        MARGIN,
-        photoY,
+        x,
+        y,
 
-        PHOTO_WIDTH,
-        PHOTO_HEIGHT
-
-    );
-
-
-    /*
-       Convert the printed
-       photograph to grayscale.
-    */
-
-    const imageData =
-        ctx.getImageData(
-
-            MARGIN,
-            photoY,
-
-            PHOTO_WIDTH,
-            PHOTO_HEIGHT
-
-        );
-
-
-    const pixels =
-        imageData.data;
-
-
-    for (
-        let i = 0;
-        i < pixels.length;
-        i += 4
-    ) {
-
-        const gray =
-
-            pixels[i] * 0.299 +
-
-            pixels[i + 1] * 0.587 +
-
-            pixels[i + 2] * 0.114;
-
-
-        pixels[i] =
-            gray;
-
-        pixels[i + 1] =
-            gray;
-
-        pixels[i + 2] =
-            gray;
-
-    }
-
-
-    ctx.putImageData(
-
-        imageData,
-
-        MARGIN,
-        photoY
+        targetW,
+        targetH
 
     );
-
-
-    /* BELOW PHOTO */
-
-    const afterPhoto =
-        photoY +
-        PHOTO_HEIGHT +
-        30;
-
-
-    drawDivider(
-
-        ctx,
-        afterPhoto,
-        WIDTH,
-        MARGIN
-
-    );
-
-
-    /* DATE */
-
-    const now =
-        new Date();
-
-
-    const dateText =
-        now.toLocaleDateString(
-
-            "en-PH",
-
-            {
-                year: "numeric",
-                month: "long",
-                day: "numeric"
-            }
-
-        ).toUpperCase();
-
-
-    const timeText =
-        now.toLocaleTimeString(
-
-            "en-PH",
-
-            {
-                hour: "2-digit",
-                minute: "2-digit"
-            }
-
-        );
-
-
-    ctx.font =
-        "22px Arial";
-
-
-    ctx.fillText(
-
-        dateText,
-
-        WIDTH / 2,
-
-        afterPhoto + 48
-
-    );
-
-
-    ctx.fillText(
-
-        timeText,
-
-        WIDTH / 2,
-
-        afterPhoto + 80
-
-    );
-
-
-    drawDivider(
-
-        ctx,
-
-        afterPhoto + 108,
-
-        WIDTH,
-
-        MARGIN
-
-    );
-
-
-    /* MESSAGE */
-
-    ctx.font =
-        "bold 24px Arial";
-
-
-    ctx.fillText(
-
-        "MAKE A MEMORY.",
-
-        WIDTH / 2,
-
-        afterPhoto + 152
-
-    );
-
-
-    ctx.fillText(
-
-        "KEEP THE RECEIPT.",
-
-        WIDTH / 2,
-
-        afterPhoto + 186
-
-    );
-
-
-    drawDivider(
-
-        ctx,
-
-        afterPhoto + 215,
-
-        WIDTH,
-
-        MARGIN
-
-    );
-
-
-    /* FOOTER */
-
-    ctx.font =
-        "20px Arial";
-
-
-    ctx.fillText(
-
-        "#RECEIPTBOOTH",
-
-        WIDTH / 2,
-
-        afterPhoto + 258
-
-    );
-
-
-    ctx.fillText(
-
-        "THANK YOU",
-
-        WIDTH / 2,
-
-        afterPhoto + 292
-
-    );
-
-
-    /*
-       Show technical preview.
-    */
-
-    const container =
-        document.getElementById(
-            "thermal-container"
-        );
-
-
-    container.classList.remove(
-        "hidden"
-    );
-
-
-    container.scrollIntoView({
-
-        behavior:
-            "smooth",
-
-        block:
-            "start"
-
-    });
 
 }
 
 
-/* ================================
-   DASHED DIVIDER
-================================ */
+
+/* =========================
+   THERMAL GRAYSCALE
+========================= */
 
 
-function drawDivider(
+function grayscaleRegion(
+
     ctx,
+
+    x,
     y,
-    width,
-    margin
+
+    w,
+    h
+
 ) {
+
+
+    const image =
+
+        ctx
+        .getImageData(
+
+            x,
+            y,
+
+            w,
+            h
+
+        );
+
+
+    const data =
+        image.data;
+
+
+
+    for(
+
+        let i = 0;
+
+        i < data.length;
+
+        i += 4
+
+    ) {
+
+
+        const gray =
+
+            data[i]
+            * .299
+
+            +
+
+            data[i + 1]
+            * .587
+
+            +
+
+            data[i + 2]
+            * .114;
+
+
+
+        const contrast =
+
+            Math.max(
+
+                0,
+
+                Math.min(
+
+                    255,
+
+                    (gray - 128)
+                    * 1.18
+                    + 128
+
+                )
+
+            );
+
+
+
+        data[i] =
+            contrast;
+
+
+        data[i + 1] =
+            contrast;
+
+
+        data[i + 2] =
+            contrast;
+
+    }
+
+
+
+    ctx.putImageData(
+
+        image,
+
+        x,
+        y
+
+    );
+
+}
+
+
+
+/* =========================
+   FIT EVENT TEXT
+========================= */
+
+
+function fitText(
+
+    ctx,
+
+    text,
+
+    maxWidth,
+
+    startSize,
+
+    minSize,
+
+    x,
+
+    y
+
+) {
+
+
+    let size =
+        startSize;
+
+
+    ctx.font =
+
+        "900 "
+        +
+        size
+        +
+        "px Arial";
+
+
+
+    while(
+
+        size >
+        minSize
+
+        &&
+
+        ctx
+        .measureText(
+            text
+        )
+        .width
+
+        >
+
+        maxWidth
+
+    ) {
+
+
+        size--;
+
+
+        ctx.font =
+
+            "900 "
+            +
+            size
+            +
+            "px Arial";
+
+    }
+
+
+
+    ctx.fillText(
+
+        text,
+
+        x,
+        y
+
+    );
+
+}
+
+
+
+/* =========================
+   LINE
+========================= */
+
+
+function line(
+
+    ctx,
+
+    y,
+
+    width
+
+) {
+
 
     ctx.save();
 
 
     ctx.strokeStyle =
-        "#000000";
+        "#000";
+
 
     ctx.lineWidth =
         2;
-
-
-    ctx.setLineDash(
-        [10, 8]
-    );
 
 
     ctx.beginPath();
 
 
     ctx.moveTo(
-        margin,
+
+        12,
+
         y
+
     );
 
 
     ctx.lineTo(
-        width - margin,
+
+        width - 12,
+
         y
+
     );
 
 
@@ -1313,7 +4116,179 @@ function drawDivider(
 
 }
 
+
+
+/* =========================
+   PRINT COMPLETE
+========================= */
+
+
+function completePrint() {
+
+
+    showThankYou();
+
+}
+
+
+
+/* =========================
+   THANK YOU
+========================= */
+
+
+function showThankYou() {
+
+
+    if(
+        resetTimer
+    ) {
+
+
+        clearTimeout(
+            resetTimer
+        );
+
+    }
+
+
+
+    showScreen(
+        "thank-screen"
+    );
+
+
+
+    let remaining =
+        resetSeconds;
+
+
+
+    const text =
+
+        document
+        .getElementById(
+            "reset-text"
+        );
+
+
+
+    text.textContent =
+
+        "Next guest in "
+
+        +
+
+        remaining
+
+        +
+
+        " seconds...";
+
+
+
+    const countdown =
+
+        setInterval(
+            function() {
+
+
+                remaining--;
+
+
+
+                if(
+                    remaining > 0
+                ) {
+
+
+                    text.textContent =
+
+                        "Next guest in "
+
+                        +
+
+                        remaining
+
+                        +
+
+                        " seconds...";
+
+
+                }
+
+
+                else {
+
+
+                    clearInterval(
+                        countdown
+                    );
+
+
+                }
+
+
+            },
+
+            1000
+
+        );
+
+
+
+    resetTimer =
+
+        setTimeout(
+            function() {
+
+
+                clearInterval(
+                    countdown
+                );
+
+
+                document
+                    .getElementById(
+                        "print-area"
+                    )
+                    .classList
+                    .add(
+                        "hidden"
+                    );
+
+
+                refreshHome();
+
+
+                showScreen(
+                    "home-screen"
+                );
+
+
+            },
+
+            resetSeconds
+            *
+            1000
+
+        );
+
+}
+
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+
+refreshHome();
+
+
 </script>
 
+
 </body>
+
 </html>
