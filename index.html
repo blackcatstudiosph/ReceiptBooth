@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReceiptBooth Prototype 004</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f7f3ed;
+    color: #222;
+}
+
+.screen {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin-bottom: 35px;
+}
+
+h1 {
+    font-size: 42px;
+    margin: 10px 0;
+}
+
+p {
+    font-size: 20px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+button {
+    border: none;
+    background: #222;
+    color: white;
+    font-size: 21px;
+    font-weight: bold;
+    padding: 18px 40px;
+    border-radius: 50px;
+    cursor: pointer;
+    margin: 8px;
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+.secondary {
+    background: #ddd;
+    color: #222;
+}
+
+
+/* CAMERA */
+
+.camera-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+}
+
+video,
+#photo {
+    width: 100%;
+    border-radius: 24px;
+    background: #111;
+}
+
+#countdown {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 130px;
+    font-weight: bold;
+    color: white;
+
+    text-shadow:
+        0 3px 15px rgba(0,0,0,.6);
+}
+
+
+/* FLASH */
+
+#flash {
+    position: fixed;
+    inset: 0;
+    background: white;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 999;
+}
+
+.flash-active {
+    animation: flashEffect .35s ease;
+}
+
+@keyframes flashEffect {
+
+    0% { opacity: 0; }
+
+    40% { opacity: 1; }
+
+    100% { opacity: 0; }
+
+}
+
+
+/* PRETTY RECEIPT PREVIEW */
+
+.receipt-shell {
+    background: #d7d7d7;
+    padding: 30px;
+    border-radius: 20px;
+}
+
+.receipt {
+    width: 302px;
+    background: white;
+    color: black;
+
+    padding: 16px 14px 22px;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    text-align: center;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.15);
+}
+
+.receipt-title {
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.receipt-subtitle {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.divider {
+    border-top:
+        2px dashed black;
+
+    margin: 14px 0;
+}
+
+#receipt-photo {
+    width: 100%;
+    display: block;
+
+    filter:
+        grayscale(100%);
+}
+
+.receipt-date {
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.receipt-message {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.5;
+
+    margin: 14px 0;
+}
+
+.receipt-footer {
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+
+/* THERMAL OUTPUT */
+
+.thermal-container {
+    margin-top: 35px;
+}
+
+.thermal-label {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+#thermal-output {
+    display: block;
+
+    width: 302px;
+    max-width: 100%;
+
+    background: white;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.18);
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div id="flash"></div>
+
+
+<!-- HOME -->
+
+<section
+    id="home-screen"
+    class="screen">
+
+    <div class="logo">
+        RECEIPTBOOTH
+    </div>
+
+    <div style="font-size:80px;">
+        📸
+    </div>
+
+    <h1>
+        Make a Memory
+    </h1>
+
+    <p>
+        Take a photo.
+        Print a memory.
+    </p>
+
+    <button onclick="startCamera()">
+        TAP TO START
+    </button>
+
+</section>
+
+
+<!-- CAMERA -->
+
+<section
+    id="camera-screen"
+    class="screen hidden">
+
+    <div class="logo">
+        RECEIPTBOOTH
+    </div>
+
+    <div class="camera-wrap">
+
+        <video
+            id="camera"
+            autoplay
+            playsinline>
+        </video>
+
+        <div id="countdown">
+            3
+        </div>
+
+    </div>
+
+    <button
+        id="capture-button"
+        onclick="startCountdown()">
+
+        📸 TAKE PHOTO
+
+    </button>
+
+</section>
+
+
+<!-- PHOTO PREVIEW -->
+
+<section
+    id="preview-screen"
+    class="screen hidden">
+
+    <div class="logo">
+        RECEIPTBOOTH
+    </div>
+
+    <h1>
+        Your Photo
+    </h1>
+
+    <p>
+        Love it?
+    </p>
+
+    <canvas id="photo"></canvas>
+
+    <div>
+
+        <button
+            class="secondary"
+            onclick="retakePhoto()">
+
+            RETAKE
+
+        </button>
+
+        <button onclick="usePhoto()">
+
+            USE THIS PHOTO
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- RECEIPT -->
+
+<section
+    id="receipt-screen"
+    class="screen hidden">
+
+    <div class="logo">
+        RECEIPTBOOTH
+    </div>
+
+    <h1>
+        Your Memory Receipt
+    </h1>
+
+    <p>
+        This is how your memory
+        will look.
+    </p>
+
+
+    <div class="receipt-shell">
+
+        <div class="receipt">
+
+            <div class="receipt-title">
+                RECEIPTBOOTH
+            </div>
+
+            <div class="receipt-subtitle">
+                PHOTO MEMORY
+            </div>
+
+            <div class="divider"></div>
+
+
+            <img
+                id="receipt-photo"
+                alt="Captured photo">
+
+
+            <div class="divider"></div>
+
+
+            <div class="receipt-date">
+
+                <div id="receipt-date"></div>
+
+                <div id="receipt-time"></div>
+
+            </div>
+
+
+            <div class="divider"></div>
+
+
+            <div class="receipt-message">
+
+                MAKE A MEMORY.<br>
+                KEEP THE RECEIPT.
+
+            </div>
+
+
+            <div class="divider"></div>
+
+
+            <div class="receipt-footer">
+
+                #RECEIPTBOOTH<br>
+                THANK YOU ♡
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div style="margin-top:25px;">
+
+        <button
+            class="secondary"
+            onclick="backToPhoto()">
+
+            BACK
+
+        </button>
+
+        <button onclick="generateThermalReceipt()">
+
+            🧾 CREATE PRINT FILE
+
+        </button>
+
+    </div>
+
+
+    <!-- TECHNICAL PRINT PREVIEW -->
+
+    <div
+        id="thermal-container"
+        class="thermal-container hidden">
+
+        <div class="thermal-label">
+            80MM THERMAL OUTPUT • 576PX
+        </div>
+
+        <canvas id="thermal-output"></canvas>
+
+    </div>
+
+
+</section>
+
+
+<script>
+
+let cameraStream = null;
+
+
+/* ================================
+   CAMERA
+================================ */
+
+
+async function startCamera() {
+
+    try {
+
+        cameraStream =
+            await navigator.mediaDevices
+            .getUserMedia({
+
+                video: {
+                    facingMode: "user"
+                },
+
+                audio: false
+
+            });
+
+
+        const camera =
+            document.getElementById(
+                "camera"
+            );
+
+
+        camera.srcObject =
+            cameraStream;
+
+
+        document
+            .getElementById(
+                "home-screen"
+            )
+            .classList
+            .add("hidden");
+
+
+        document
+            .getElementById(
+                "camera-screen"
+            )
+            .classList
+            .remove("hidden");
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Camera could not be opened. " +
+            "Please allow camera access."
+        );
+
+    }
+
+}
+
+
+/* ================================
+   COUNTDOWN
+================================ */
+
+
+function startCountdown() {
+
+    const countdown =
+        document.getElementById(
+            "countdown"
+        );
+
+
+    const button =
+        document.getElementById(
+            "capture-button"
+        );
+
+
+    button.disabled = true;
+
+    countdown.style.display =
+        "flex";
+
+
+    let number = 3;
+
+    countdown.innerText =
+        number;
+
+
+    const timer =
+        setInterval(function() {
+
+            number--;
+
+
+            if (number > 0) {
+
+                countdown.innerText =
+                    number;
+
+            }
+
+            else {
+
+                clearInterval(timer);
+
+                countdown.style.display =
+                    "none";
+
+                button.disabled =
+                    false;
+
+                capturePhoto();
+
+            }
+
+        }, 1000);
+
+}
+
+
+/* ================================
+   CAPTURE
+================================ */
+
+
+function capturePhoto() {
+
+    const camera =
+        document.getElementById(
+            "camera"
+        );
+
+
+    const canvas =
+        document.getElementById(
+            "photo"
+        );
+
+
+    const ctx =
+        canvas.getContext("2d");
+
+
+    canvas.width =
+        camera.videoWidth;
+
+    canvas.height =
+        camera.videoHeight;
+
+
+    ctx.save();
+
+
+    /*
+       Mirror the captured selfie
+       so it matches the preview.
+    */
+
+    ctx.translate(
+        canvas.width,
+        0
+    );
+
+    ctx.scale(
+        -1,
+        1
+    );
+
+
+    ctx.drawImage(
+
+        camera,
+
+        0,
+        0,
+
+        canvas.width,
+        canvas.height
+
+    );
+
+
+    ctx.restore();
+
+
+    flashScreen();
+
+
+    setTimeout(function() {
+
+        document
+            .getElementById(
+                "camera-screen"
+            )
+            .classList
+            .add("hidden");
+
+
+        document
+            .getElementById(
+                "preview-screen"
+            )
+            .classList
+            .remove("hidden");
+
+    }, 350);
+
+}
+
+
+/* ================================
+   FLASH
+================================ */
+
+
+function flashScreen() {
+
+    const flash =
+        document.getElementById(
+            "flash"
+        );
+
+
+    flash.classList.remove(
+        "flash-active"
+    );
+
+
+    void flash.offsetWidth;
+
+
+    flash.classList.add(
+        "flash-active"
+    );
+
+}
+
+
+/* ================================
+   RETAKE
+================================ */
+
+
+function retakePhoto() {
+
+    document
+        .getElementById(
+            "preview-screen"
+        )
+        .classList
+        .add("hidden");
+
+
+    document
+        .getElementById(
+            "camera-screen"
+        )
+        .classList
+        .remove("hidden");
+
+}
+
+
+/* ================================
+   USE PHOTO
+================================ */
+
+
+function usePhoto() {
+
+    const canvas =
+        document.getElementById(
+            "photo"
+        );
+
+
+    const imageData =
+        canvas.toDataURL(
+            "image/jpeg",
+            0.92
+        );
+
+
+    document
+        .getElementById(
+            "receipt-photo"
+        )
+        .src =
+        imageData;
+
+
+    const now =
+        new Date();
+
+
+    const dateText =
+        now.toLocaleDateString(
+
+            "en-PH",
+
+            {
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            }
+
+        );
+
+
+    const timeText =
+        now.toLocaleTimeString(
+
+            "en-PH",
+
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+
+        );
+
+
+    document
+        .getElementById(
+            "receipt-date"
+        )
+        .innerText =
+        dateText.toUpperCase();
+
+
+    document
+        .getElementById(
+            "receipt-time"
+        )
+        .innerText =
+        timeText;
+
+
+    document
+        .getElementById(
+            "preview-screen"
+        )
+        .classList
+        .add("hidden");
+
+
+    document
+        .getElementById(
+            "receipt-screen"
+        )
+        .classList
+        .remove("hidden");
+
+}
+
+
+/* ================================
+   BACK
+================================ */
+
+
+function backToPhoto() {
+
+    document
+        .getElementById(
+            "thermal-container"
+        )
+        .classList
+        .add("hidden");
+
+
+    document
+        .getElementById(
+            "receipt-screen"
+        )
+        .classList
+        .add("hidden");
+
+
+    document
+        .getElementById(
+            "preview-screen"
+        )
+        .classList
+        .remove("hidden");
+
+}
+
+
+/* ================================
+   THERMAL RECEIPT GENERATOR
+================================ */
+
+
+function generateThermalReceipt() {
+
+    const source =
+        document.getElementById(
+            "photo"
+        );
+
+
+    const output =
+        document.getElementById(
+            "thermal-output"
+        );
+
+
+    const ctx =
+        output.getContext("2d");
+
+
+    /*
+       Prototype target:
+
+       576 pixels wide.
+
+       This gives us a realistic
+       working canvas for many
+       80mm / 203dpi printers.
+
+       We'll verify the exact
+       VOZY G80 specification
+       before physical printing.
+    */
+
+    const WIDTH = 576;
+
+    const MARGIN = 30;
+
+    const PHOTO_WIDTH =
+        WIDTH - (MARGIN * 2);
+
+    const PHOTO_HEIGHT =
+        PHOTO_WIDTH;
+
+
+    /*
+       Receipt height.
+    */
+
+    const HEIGHT = 950;
+
+
+    output.width =
+        WIDTH;
+
+    output.height =
+        HEIGHT;
+
+
+    /*
+       White paper.
+    */
+
+    ctx.fillStyle =
+        "#FFFFFF";
+
+    ctx.fillRect(
+        0,
+        0,
+        WIDTH,
+        HEIGHT
+    );
+
+
+    ctx.fillStyle =
+        "#000000";
+
+    ctx.textAlign =
+        "center";
+
+
+    /* TITLE */
+
+    ctx.font =
+        "bold 36px Arial";
+
+    ctx.fillText(
+        "RECEIPTBOOTH",
+        WIDTH / 2,
+        55
+    );
+
+
+    ctx.font =
+        "20px Arial";
+
+    ctx.fillText(
+        "PHOTO MEMORY",
+        WIDTH / 2,
+        88
+    );
+
+
+    drawDivider(
+        ctx,
+        120,
+        WIDTH,
+        MARGIN
+    );
+
+
+    /* PHOTO */
+
+    const sourceWidth =
+        source.width;
+
+    const sourceHeight =
+        source.height;
+
+
+    const cropSize =
+        Math.min(
+            sourceWidth,
+            sourceHeight
+        );
+
+
+    const cropX =
+        (
+            sourceWidth -
+            cropSize
+        ) / 2;
+
+
+    const cropY =
+        (
+            sourceHeight -
+            cropSize
+        ) / 2;
+
+
+    const photoY =
+        145;
+
+
+    ctx.drawImage(
+
+        source,
+
+        cropX,
+        cropY,
+
+        cropSize,
+        cropSize,
+
+        MARGIN,
+        photoY,
+
+        PHOTO_WIDTH,
+        PHOTO_HEIGHT
+
+    );
+
+
+    /*
+       Convert the printed
+       photograph to grayscale.
+    */
+
+    const imageData =
+        ctx.getImageData(
+
+            MARGIN,
+            photoY,
+
+            PHOTO_WIDTH,
+            PHOTO_HEIGHT
+
+        );
+
+
+    const pixels =
+        imageData.data;
+
+
+    for (
+        let i = 0;
+        i < pixels.length;
+        i += 4
+    ) {
+
+        const gray =
+
+            pixels[i] * 0.299 +
+
+            pixels[i + 1] * 0.587 +
+
+            pixels[i + 2] * 0.114;
+
+
+        pixels[i] =
+            gray;
+
+        pixels[i + 1] =
+            gray;
+
+        pixels[i + 2] =
+            gray;
+
+    }
+
+
+    ctx.putImageData(
+
+        imageData,
+
+        MARGIN,
+        photoY
+
+    );
+
+
+    /* BELOW PHOTO */
+
+    const afterPhoto =
+        photoY +
+        PHOTO_HEIGHT +
+        30;
+
+
+    drawDivider(
+
+        ctx,
+        afterPhoto,
+        WIDTH,
+        MARGIN
+
+    );
+
+
+    /* DATE */
+
+    const now =
+        new Date();
+
+
+    const dateText =
+        now.toLocaleDateString(
+
+            "en-PH",
+
+            {
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            }
+
+        ).toUpperCase();
+
+
+    const timeText =
+        now.toLocaleTimeString(
+
+            "en-PH",
+
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+
+        );
+
+
+    ctx.font =
+        "22px Arial";
+
+
+    ctx.fillText(
+
+        dateText,
+
+        WIDTH / 2,
+
+        afterPhoto + 48
+
+    );
+
+
+    ctx.fillText(
+
+        timeText,
+
+        WIDTH / 2,
+
+        afterPhoto + 80
+
+    );
+
+
+    drawDivider(
+
+        ctx,
+
+        afterPhoto + 108,
+
+        WIDTH,
+
+        MARGIN
+
+    );
+
+
+    /* MESSAGE */
+
+    ctx.font =
+        "bold 24px Arial";
+
+
+    ctx.fillText(
+
+        "MAKE A MEMORY.",
+
+        WIDTH / 2,
+
+        afterPhoto + 152
+
+    );
+
+
+    ctx.fillText(
+
+        "KEEP THE RECEIPT.",
+
+        WIDTH / 2,
+
+        afterPhoto + 186
+
+    );
+
+
+    drawDivider(
+
+        ctx,
+
+        afterPhoto + 215,
+
+        WIDTH,
+
+        MARGIN
+
+    );
+
+
+    /* FOOTER */
+
+    ctx.font =
+        "20px Arial";
+
+
+    ctx.fillText(
+
+        "#RECEIPTBOOTH",
+
+        WIDTH / 2,
+
+        afterPhoto + 258
+
+    );
+
+
+    ctx.fillText(
+
+        "THANK YOU",
+
+        WIDTH / 2,
+
+        afterPhoto + 292
+
+    );
+
+
+    /*
+       Show technical preview.
+    */
+
+    const container =
+        document.getElementById(
+            "thermal-container"
+        );
+
+
+    container.classList.remove(
+        "hidden"
+    );
+
+
+    container.scrollIntoView({
+
+        behavior:
+            "smooth",
+
+        block:
+            "start"
+
+    });
+
+}
+
+
+/* ================================
+   DASHED DIVIDER
+================================ */
+
+
+function drawDivider(
+    ctx,
+    y,
+    width,
+    margin
+) {
+
+    ctx.save();
+
+
+    ctx.strokeStyle =
+        "#000000";
+
+    ctx.lineWidth =
+        2;
+
+
+    ctx.setLineDash(
+        [10, 8]
+    );
+
+
+    ctx.beginPath();
+
+
+    ctx.moveTo(
+        margin,
+        y
+    );
+
+
+    ctx.lineTo(
+        width - margin,
+        y
+    );
+
+
+    ctx.stroke();
+
+
+    ctx.restore();
+
+}
+
+</script>
+
+</body>
+</html>
