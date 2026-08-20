@@ -1917,11 +1917,9 @@ document.getElementById(
 
 qr.innerHTML = "";
 
-
 new QRCode(
 qr,
 {
-
 text:
 digitalUrl,
 
@@ -1933,17 +1931,14 @@ height:
 
 correctLevel:
 QRCode.CorrectLevel.M
-
 }
 );
-
 
 showScreen(
 "digital-screen"
 );
 
 }
-
 
 function showUploadError(error){
 
