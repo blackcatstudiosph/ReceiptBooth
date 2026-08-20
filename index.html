@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#f4f0e8">
 <title>BLACKCAT STUDIOS</title>
 
-<link rel="manifest" href="manifest.json?v=15">
-<link rel="apple-touch-icon" href="apple-touch-icon.png?v=15">
+<link rel="manifest" href="manifest.json?v=17">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=17">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -594,7 +594,7 @@ h1{
 <section id="home-screen" class="screen">
 
 <div id="admin-trigger" class="brand">
-BLACKCAT STUDIOS
+<span id="home-brand">BLACKCAT STUDIOS</span>
 </div>
 
 <img src="blackcat-icon.png" class="cat">
@@ -686,6 +686,32 @@ Pay Per Use
 <option>8</option>
 <option>10</option>
 <option>15</option>
+</select>
+
+</div>
+
+<div class="row">
+<label>CLIENT / BRAND NAME</label>
+<input
+id="admin-brand"
+type="text"
+placeholder="BLACKCAT STUDIOS">
+</div>
+
+<div class="row">
+<label>RECEIPT HEADER</label>
+<input
+id="admin-receipt-header"
+type="text"
+placeholder="BLACKCAT STUDIOS">
+</div>
+
+<div class="row">
+<label>DIGITAL COPY QR</label>
+
+<select id="admin-digital-qr">
+<option value="on">ON</option>
+<option value="off">OFF</option>
 </select>
 
 </div>
@@ -974,7 +1000,7 @@ Your Photo Receipt
 
 <div class="receipt">
 
-<div class="receipt-brand">
+<div id="receipt-brand" class="receipt-brand">
 BLACKCAT STUDIOS
 </div>
 
@@ -1008,6 +1034,7 @@ KEEP THIS RECEIPT ♡
 </div>
 
 <button
+id="receipt-digital-button"
 class="secondary"
 onclick="backToDigital()">
 
@@ -1107,6 +1134,18 @@ localStorage.getItem("blackcatReset")
 || 8
 );
 
+let brandName =
+localStorage.getItem("blackcatBrand")
+|| "BLACKCAT STUDIOS";
+
+let receiptHeader =
+localStorage.getItem("blackcatReceiptHeader")
+|| "BLACKCAT STUDIOS";
+
+let digitalQrEnabled =
+localStorage.getItem("blackcatDigitalQr")
+|| "on";
+
 let cameraStream = null;
 
 let holdTimer = null;
@@ -1135,6 +1174,16 @@ window.scrollTo(0,0);
 
 function refreshHome(){
 
+const homeBrand =
+document.getElementById("home-brand");
+
+if(homeBrand){
+homeBrand.textContent =
+brandName
+||
+"BLACKCAT STUDIOS";
+}
+
 document
 .getElementById("home-event")
 .textContent =
@@ -1146,6 +1195,28 @@ document
 boothMode === "private"
 ? "PRIVATE EVENT"
 : "PAY PER USE";
+
+const receiptBrand =
+document.getElementById("receipt-brand");
+
+if(receiptBrand){
+receiptBrand.textContent =
+receiptHeader
+||
+brandName
+||
+"BLACKCAT STUDIOS";
+}
+
+const digitalButton =
+document.getElementById("receipt-digital-button");
+
+if(digitalButton){
+digitalButton.classList.toggle(
+"hidden",
+digitalQrEnabled !== "on"
+);
+}
 
 }
 
@@ -1261,6 +1332,21 @@ document
 .value =
 resetSeconds;
 
+document
+.getElementById("admin-brand")
+.value =
+brandName;
+
+document
+.getElementById("admin-receipt-header")
+.value =
+receiptHeader;
+
+document
+.getElementById("admin-digital-qr")
+.value =
+digitalQrEnabled;
+
 showScreen(
 "admin-screen"
 );
@@ -1301,6 +1387,27 @@ document
 ||
 8;
 
+brandName =
+document
+.getElementById("admin-brand")
+.value
+.trim()
+||
+"BLACKCAT STUDIOS";
+
+receiptHeader =
+document
+.getElementById("admin-receipt-header")
+.value
+.trim()
+||
+brandName;
+
+digitalQrEnabled =
+document
+.getElementById("admin-digital-qr")
+.value;
+
 localStorage.setItem(
 "blackcatEvent",
 eventName
@@ -1313,12 +1420,27 @@ boothMode
 
 localStorage.setItem(
 "blackcatPrice",
-photoPrice
+String(photoPrice)
 );
 
 localStorage.setItem(
 "blackcatReset",
-resetSeconds
+String(resetSeconds)
+);
+
+localStorage.setItem(
+"blackcatBrand",
+brandName
+);
+
+localStorage.setItem(
+"blackcatReceiptHeader",
+receiptHeader
+);
+
+localStorage.setItem(
+"blackcatDigitalQr",
+digitalQrEnabled
 );
 
 refreshHome();
@@ -1603,6 +1725,33 @@ document
 .textContent =
 currentDate();
 
+const receiptBrand =
+document.getElementById(
+"receipt-brand"
+);
+
+if(receiptBrand){
+receiptBrand.textContent =
+receiptHeader
+||
+brandName
+||
+"BLACKCAT STUDIOS";
+}
+
+if(digitalQrEnabled !== "on"){
+
+currentBlob = null;
+digitalUrl = "";
+
+showScreen(
+"receipt-screen"
+);
+
+return;
+
+}
+
 showScreen(
 "upload-screen"
 );
@@ -1817,7 +1966,11 @@ error
 
 function backToDigital(){
 
-if(digitalUrl){
+if(
+digitalQrEnabled === "on"
+&&
+digitalUrl
+){
 
 showDigital();
 
@@ -1908,9 +2061,13 @@ ctx.textAlign =
 ctx.font =
 "900 30px Arial";
 
-ctx.fillText(
-"BLACKCAT STUDIOS",
-W/2,
+fitText(
+ctx,
+(receiptHeader || brandName || "BLACKCAT STUDIOS").toUpperCase(),
+W - 50,
+30,
+18,
+W / 2,
 48
 );
 
@@ -2272,7 +2429,7 @@ window.addEventListener(
 navigator
 .serviceWorker
 .register(
-"./sw.js?v=15"
+"./sw.js?v=17"
 );
 
 }
