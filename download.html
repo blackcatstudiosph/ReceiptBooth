@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4f0e8">
+<title>Your Photo — BLACKCAT STUDIOS</title>
+<style>
+:root{--cream:#f4f0e8;--black:#0b0b0b;--muted:#686868}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:var(--cream);color:var(--black)}
+body{min-height:100dvh;padding:max(24px,env(safe-area-inset-top)) 18px max(28px,env(safe-area-inset-bottom))}
+.page{width:min(560px,100%);margin:0 auto;text-align:center}
+.brand{font-size:16px;font-weight:900;letter-spacing:4px;margin:8px 0 26px}
+.card{background:#fff;border-radius:28px;padding:22px;box-shadow:0 8px 30px rgba(0,0,0,.07)}
+.kicker{display:inline-block;border:1px solid #cfcac2;border-radius:999px;padding:7px 11px;font-size:10px;font-weight:900;letter-spacing:1.4px;margin-bottom:8px}
+h1{margin:6px 0 7px;font-size:clamp(32px,8vw,44px);line-height:1}
+.subtitle{margin:0 0 18px;color:var(--muted);font-size:14px;line-height:1.45}
+.receipt-wrap{width:min(360px,100%);margin:0 auto 18px;padding:12px;border-radius:22px;background:#e8e5df}
+.receipt{display:block;width:100%;height:auto;background:#fff;border-radius:4px}
+.primary{display:flex;align-items:center;justify-content:center;width:100%;min-height:56px;border:0;border-radius:17px;padding:15px 20px;background:#111;color:#fff;text-decoration:none;font-size:15px;font-weight:900}
+.note{color:var(--muted);font-size:11px;line-height:1.45;margin:14px 8px 2px}
+.error{display:none;padding:30px 10px}
+.error h1{font-size:28px}.error p{color:var(--muted);line-height:1.5}
+.loading{padding:40px 10px}
+.spinner{width:48px;height:48px;margin:0 auto 18px;border:5px solid #ddd;border-top-color:#111;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<main class="page">
+<div class="brand">BLACKCAT STUDIOS</div>
+
+<section id="loading" class="card loading">
+<div class="spinner"></div>
+<strong>Loading your photo...</strong>
+</section>
+
+<section id="content" class="card" style="display:none">
+<div class="kicker">YOUR DIGITAL COPY</div>
+<h1>Keep the Moment.</h1>
+<div class="subtitle">Your photo receipt is ready.</div>
+<div class="receipt-wrap">
+<img id="receipt-image" class="receipt" alt="Your photo receipt">
+</div>
+<a id="save-button" class="primary" href="#" download="blackcat-photo-receipt.jpg">SAVE PHOTO</a>
+<div class="note">Tip: If your browser opens the photo instead of saving it, press and hold the image and choose Save to Photos.</div>
+</section>
+
+<section id="error" class="card error">
+<h1>Photo Unavailable</h1>
+<p>This digital copy may have expired or the link is invalid.</p>
+</section>
+</main>
+
+<script>
+const params=new URLSearchParams(window.location.search);
+const photoUrl=params.get("photo");
+const loading=document.getElementById("loading");
+const content=document.getElementById("content");
+const errorBox=document.getElementById("error");
+const image=document.getElementById("receipt-image");
+const saveButton=document.getElementById("save-button");
+
+function showError(){
+  loading.style.display="none";
+  content.style.display="none";
+  errorBox.style.display="block";
+}
+
+if(!photoUrl){
+  showError();
+}else{
+  try{
+    const parsed=new URL(photoUrl);
+    if(parsed.protocol!=="https:") throw new Error("Invalid photo URL");
+    image.onload=()=>{
+      loading.style.display="none";
+      errorBox.style.display="none";
+      content.style.display="block";
+    };
+    image.onerror=showError;
+    image.src=parsed.href;
+    saveButton.href=parsed.href;
+  }catch(error){
+    showError();
+  }
+}
+</script>
+</body>
+</html>
