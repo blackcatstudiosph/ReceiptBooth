@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#f4f0e8">
 <title>BLACKCAT STUDIOS</title>
 
-<link rel="manifest" href="manifest.json?v=17">
-<link rel="apple-touch-icon" href="apple-touch-icon.png?v=17">
+<link rel="manifest" href="manifest.json?v=17c1">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=17c1">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -988,7 +988,7 @@ CONTINUE TO PRINT →
 
 <section id="receipt-screen" class="screen hidden">
 
-<div class="brand">
+<div id="receipt-page-brand" class="brand">
 BLACKCAT STUDIOS
 </div>
 
@@ -1203,6 +1203,16 @@ if(receiptBrand){
 receiptBrand.textContent =
 receiptHeader
 ||
+brandName
+||
+"BLACKCAT STUDIOS";
+}
+
+const receiptPageBrand =
+document.getElementById("receipt-page-brand");
+
+if(receiptPageBrand){
+receiptPageBrand.textContent =
 brandName
 ||
 "BLACKCAT STUDIOS";
@@ -1684,6 +1694,17 @@ new Error(
 }
 
 
+function buildReceiptCanvas(){
+
+createPrintFile();
+
+return document.getElementById(
+"thermal-output"
+);
+
+}
+
+
 async function usePhoto(){
 
 const canvas =
@@ -1744,6 +1765,8 @@ if(digitalQrEnabled !== "on"){
 currentBlob = null;
 digitalUrl = "";
 
+refreshHome();
+
 showScreen(
 "receipt-screen"
 );
@@ -1758,9 +1781,12 @@ showScreen(
 
 try{
 
+const finalReceiptCanvas =
+buildReceiptCanvas();
+
 currentBlob =
 await canvasBlob(
-canvas
+finalReceiptCanvas
 );
 
 await uploadPhoto();
@@ -2429,7 +2455,7 @@ window.addEventListener(
 navigator
 .serviceWorker
 .register(
-"./sw.js?v=17"
+"./sw.js?v=17c1"
 );
 
 }
