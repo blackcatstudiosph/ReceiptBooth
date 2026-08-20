@@ -1916,12 +1916,24 @@ document.getElementById(
 );
 
 qr.innerHTML = "";
+const downloadPageUrl =
+new URL(
+"download.html",
+window.location.href
+);
 
+downloadPageUrl.searchParams.set(
+"photo",
+digitalUrl
+);
+
+const qrUrl =
+downloadPageUrl.href;
 new QRCode(
 qr,
 {
 text:
-digitalUrl,
+qrUrl,
 
 width:
 205,
@@ -1939,6 +1951,7 @@ showScreen(
 );
 
 }
+
 
 function showUploadError(error){
 
