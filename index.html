@@ -1113,7 +1113,8 @@ SUPABASE_KEY
 
 
 const DEFAULT_PIN = "1234";
-
+const PRINT_BRIDGE_URL =
+"http://192.168.1.48:5050";
 let eventName =
 localStorage.getItem("blackcatEvent")
 || "YOUR EVENT";
@@ -2037,7 +2038,7 @@ year:"numeric"
 }
 
 
-function printPhoto(){
+async function printPhoto(){
 
 createPrintFile();
 
@@ -2045,10 +2046,93 @@ showScreen(
 "printing-screen"
 );
 
-setTimeout(
-showThankYou,
-2200
+try{
+
+const canvas =
+document.getElementById(
+"thermal-output"
 );
+
+const blob =
+await new Promise(
+(resolve,reject)=>{
+
+canvas.toBlob(
+file=>{
+
+if(file){
+resolve(file);
+}else{
+reject(
+new Error(
+"Could not prepare receipt."
+)
+);
+}
+
+},
+"image/png"
+);
+
+}
+);
+
+const form =
+new FormData();
+
+form.append(
+"file",
+blob,
+"blackcat-receipt.png"
+);
+
+const response =
+await fetch(
+PRINT_BRIDGE_URL + "/print",
+{
+method:"POST",
+body:form
+}
+);
+
+if(!response.ok){
+
+throw new Error(
+"Printer bridge returned an error."
+);
+
+}
+
+const result =
+await response.json();
+
+if(!result.success){
+
+throw new Error(
+result.error ||
+"Printing failed."
+);
+
+}
+
+showThankYou();
+
+}catch(error){
+
+console.error(
+"PRINT ERROR:",
+error
+);
+
+alert(
+"Printer unavailable. Please try again."
+);
+
+showScreen(
+"receipt-screen"
+);
+
+}
 
 }
 
